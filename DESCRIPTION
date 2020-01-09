@@ -20,9 +20,9 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-License: 
+License: EUPL
 LazyLoad: Yes
 LazyData: No
 Roxygen: list(markdown = TRUE)
 BugReports: https://github.com/XX/XX/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2

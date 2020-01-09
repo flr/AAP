@@ -6,9 +6,22 @@
 \alias{METHOD-methods}
 \title{A method for}
 \usage{
-makeDAT(stock, numYr, qplat_Fmatrix, qplat_surveys, F_age_knots,
-  F_time_knots, W_time_knots, numAges, pGrp, indMPs, selSpline, X, WSpline,
-  tquants)
+makeDAT(
+  stock,
+  numYr,
+  qplat_Fmatrix,
+  qplat_surveys,
+  F_age_knots,
+  F_time_knots,
+  W_time_knots,
+  numAges,
+  pGrp,
+  indMPs,
+  selSpline,
+  X,
+  WSpline,
+  tquants
+)
 }
 \arguments{
 \item{PARAM}{Lorem ipsum dolor sit amet}
@@ -31,12 +44,7 @@ ipsum sem. Donec malesuada purus at libero bibendum accumsan. Donec ipsum sapien
 feugiat blandit arcu in, dapibus dictum felis.
 }
 \examples{
-data(ple4)
-makeDAT(stock=ple4, numYr=10, qplat_Fmatrix=3, qplat_surveys=3,
-F_age_knots=3, F_time_knots=3, W_time_knots=3, numAges=10,
-pGrp=1, indMPs=c(1,2,3), selSpline=matrix(1, ncol=5, nrow=5),
-X=c(1,2,3), WSpline=matrix(1, ncol=5, nrow=5),
-tquants=FLQuants(catch(ple4), ssb(ple4)))
+data(sol4)
 }
 \seealso{
 \link{FLComp}

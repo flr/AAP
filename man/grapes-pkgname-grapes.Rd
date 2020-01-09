@@ -3,7 +3,6 @@
 \docType{package}
 \name{\%pkgname\%}
 \alias{\%pkgname\%}
-\alias{\%pkgname\%-package}
 \title{What The Package Does}
 \description{
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend
@@ -14,8 +13,12 @@ Suspendisse eu sapien vitae arcu lobortis ultrices vitae ac velit. Curabitur id
 \examples{
 \dontrun{FLPKG()}
 }
+\seealso{
+See \code{vignette("\%FLPKG\%", package = "\%FLPKG\%")} for an
+overview of the package.
+}
 \author{
-%USER% \email{%EMAIL%, duplicate ampersand}
+\%USER\% \email{\%EMAIL\%, duplicate ampersand}
 
-Maintainer: %USER% \email{%EMAIL%, duplicate ampersand}
+Maintainer: \%USER\% \email{\%EMAIL\%, duplicate ampersand}
 }

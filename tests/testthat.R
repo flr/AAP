@@ -1,5 +1,4 @@
 library(testthat)
 
-library(FLPKG)
+library(AAP)
 
-test_check(FLPKG)

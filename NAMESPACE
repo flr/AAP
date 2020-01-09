@@ -1,0 +1,38 @@
+import("FLCore")
+import("FLAssess")
+import("ggplotFL")
+
+importFrom("splines",
+  "bs")
+
+importFrom("mgcv",
+  "gam")
+
+exportClasses(
+  "AAP.control",
+  "AAP")
+
+export("aap",
+  "AAP.control")
+
+
+exportMethods(
+  "landings.wt",
+  "discards.wt",
+  "stock.wt",
+  "control",
+  "harvest",
+  "index",
+  "index.var",
+  "landings.n",
+  "discards.n",
+  "q.hat",
+  "catch.n",
+  "index.name",
+  "index.res",
+  "landings.var",
+  "discards.var",
+  "stdfile",
+  "stock.n",
+  "index.range",
+  "index.hat")

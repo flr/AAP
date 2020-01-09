@@ -1,0 +1,13 @@
+Sole in North Sea
+1
+laton.txt
+lanum.txt
+wela.txt
+west.txt
+natmor.txt
+matprop.txt
+fprop.txt
+mprop.txt
+fleet.txt
+dinum.txt
+wedi.txt

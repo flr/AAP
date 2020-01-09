@@ -1,0 +1,6 @@
+sol-nsea in ICES area 27.4: proportion of mature fish
+1       6
+1957    2018
+1       15
+2
+0       0       1       1       1       1       1       1       1       1       1       1       1       1       1

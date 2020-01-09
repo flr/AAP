@@ -1,0 +1,28 @@
+Package: AAP
+Title: Aarts and Poos Stock Assessment Model that Estimates Bycatch
+Version: 0.1.0
+Date: 2019-09-25
+Authors@R: c(person(given = 'Iago', family = 'Mosqueira', role = c('aut', 'cre'),
+            email = 'iago.mosqueira@wur.nl'))
+Description: FLR version of Aarts and Poos stock assessment model
+Depends:
+  methods,
+  FLCore,
+  ggplotFL,
+  R(>= 3.6.0)
+Imports: 
+  FLAssess,
+  splines,
+  mgcv
+Additional_repositories: http://flr-project.org/R
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+License: 
+LazyLoad: Yes
+LazyData: No
+Roxygen: list(markdown = TRUE)
+BugReports: https://github.com/XX/XX/issues
+RoxygenNote: 6.1.1

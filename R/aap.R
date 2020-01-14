@@ -271,8 +271,9 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile()) {
 
  }
    
-  res@q.hat@names <- res@index.hat@names <- indices@names
-  
+  res@q.hat@names <- res@index.hat@names <- res@index.var@names <-
+    res@index.res@names  <- res@index@names <- indices@names
+
   res@index <- FLQuants(indexVals)
   res@control <- control
   res@call <- deparse(sys.calls()[[sys.nframe()]])

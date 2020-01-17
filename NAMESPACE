@@ -17,6 +17,9 @@ export("aap",
 
 
 exportMethods(
+  "catch",
+  "landings",
+  "discards",
   "landings.wt",
   "discards.wt",
   "stock.wt",

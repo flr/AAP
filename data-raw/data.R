@@ -8,6 +8,7 @@
 
 
 library(FLCore)
+library(AAP)
 
 sol4 <- readFLStock("sol4/index.txt", na.strings="-1")
 
@@ -29,9 +30,14 @@ stock <- setPlusGroup(sol4, 10)
 indices <- readFLIndices("sol4/fleet.txt", na.strings="-1")
 
 # SUBSET indices
-ass.indices <- indices[c("BTS-ISIS", "SNS")]
+indices <- indices[c("BTS-ISIS", "SNS")]
+
+# --- SA
+
+# RUN
+fit <- aap(stock, ass.indices, control=AAP.control())
 
 # --- SAVE
 
 # SAVE objects
-save(stock, ass.indices, file="../data/sol4.RData", compress="xz")
+save(stock, indices, fit, file="../data/sol4.RData", compress="xz")

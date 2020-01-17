@@ -117,12 +117,14 @@ setMethod("+", signature(e1="FLStock", e2="AAP"),
 
 # }}}
 
-# residuals
+# residuals {{{
 # https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/influence.measures
+# TODO residuals(aap,FLS,FLIs)
 
 setMethod(residuals, signature(object="AAP"),
-  function(object, stock=missing) {
+  function(object, stock=missing, indices=missing) {
 
+    
     # SURVEY(s)
 
     # index
@@ -163,3 +165,17 @@ setMethod("plot", signature(x="AAP"),
     plot(FLQuants(c(mets, list(C=C))))
   }
 ) # }}}
+
+# catch, landings, discards {{{
+
+setMethod("catch", signature(object="AAP"), function(object) {
+  return(quantSums(discards(object) + landings(object)))
+})
+
+setMethod("landings", signature(object="AAP"), function(object) {
+  return(quantSums(landings.n(object) * landings.wt(object)))
+})
+
+setMethod("discards", signature(object="AAP"), function(object) {
+  return(quantSums(discards.n(object) * discards.wt(object)))
+}) # }}}

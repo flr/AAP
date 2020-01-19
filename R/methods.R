@@ -145,24 +145,37 @@ setMethod(residuals, signature(object="AAP"),
 
 # {{{ plot
 
-setMethod("plot", signature(x="AAP"),
+setMethod("plot", signature(x="AAP", y="missing"),
   function(x) {
 
-    catch <- metrics(x, list(
-      L=function(x) quantSums(landings.n(x) * landings.wt(x)),
-      D=function(x) quantSums(discards.n(x) * discards.wt(x))))
+    # GET catch
+    catches <- metrics(x, list(Catch=catch, Landings=landings,
+      Discards=discards))
 
-    C <- expand(catch$L, unit=c("L", "D"))
-    C[,, "D"] <- catch$D
+    # MERGE into single FLQuant
+    metsC <- expand(catches[[1]], unit=names(catches))
+    metsC[,,"Landings"] <- catches[["Landings"]]
+    metsC[,,"Discards"] <- catches[["Discards"]]
 
+    # GET B + F
     mets <- metrics(x, list(
-      B=function(x) quantSums(stock.n(x) * stock.wt(x)),
-      F=function(x) quantMeans(harvest(x))))
+      Biomass=function(y) quantSums(stock.n(y) * stock.wt(y)),
+      F=function(y) quantMeans(harvest(y)[
+        ac(seq(range(y)['minfbar'], range(y)['maxfbar'])),])))
+    dimnames(mets[["Biomass"]]) <- list(unit="Catch")
+    dimnames(mets[["F"]]) <- list(unit="Catch")
+
+    # COMBINE metrics
+    mets[["Catch"]] <- metsC
 
     # ADD age range to F units
-    units(mets$F) <- paste0(dims(x)[c("min", "max")], collapse="-")
+    units(mets$F) <- paste(range(x)[c("minfbar", "maxfbar")], collapse="-")
 
-    plot(FLQuants(c(mets, list(C=C))))
+    # PLOT as 3 panels, all catch FLQuants in last
+    plot(mets) + ylim(c(0,NA)) + 
+      theme(legend.title=element_blank(), legend.position=c(0.25,0.3),
+        legend.key.height = unit(0.1, "cm"), legend.key.width = unit(0.5, "cm"),
+        legend.direction="horizontal") 
   }
 ) # }}}
 

@@ -119,8 +119,8 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile()) {
   nyears   <- length(dmns[[1]])
   res     <- new("AAP")
   
-  range(res)[c("min", "max", "minyear", "maxyear")] <-
-    range(stock)[c("min", "max", "minyear", "maxyear")]
+  range(res)[c("min", "max", "minyear", "maxyear", "minfbar", "maxfbar")] <-
+    range(stock)[c("min", "max", "minyear", "maxyear", "minfbar", "maxfbar")]
   
   # RUN
 

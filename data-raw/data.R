@@ -22,7 +22,7 @@ units(sol4) <- standardUnits(sol4, biomass="tonnes",
 range(sol4, c("minfbar", "maxfbar", "plusgroup")) <- c(2, 6, 15)
 
 # SET plusgroup
-stock <- setPlusGroup(sol4, 10)
+sol4 <- setPlusGroup(sol4, 10)
 
 # --- INDEX
 
@@ -35,9 +35,9 @@ indices <- indices[c("BTS-ISIS", "SNS")]
 # --- SA
 
 # RUN
-fit <- aap(stock, ass.indices, control=AAP.control())
+fit <- aap(sol4, indices, control=AAP.control())
 
 # --- SAVE
 
 # SAVE objects
-save(stock, indices, fit, file="../data/sol4.RData", compress="xz")
+save(sol4, indices, fit, file="../data/sol4.RData", compress="xz")

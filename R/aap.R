@@ -14,10 +14,12 @@
 #' data(sol4)
 #' control <- AAP.control(pGrp=TRUE, qplat.surveys=7, qplat.Fmatrix=8,
 #'   Fage.knots=6, Ftime.knots=22, Wtime.knots=5, mcmc=FALSE)
-#' run <- aap(sol4, indices=sol4indices, control=control)
+#' run <- aap(sol4, indices=indices, control=control)
+#' run <- aap(sol4, indices=indices, control=control, stdfile=run@stdfile)
 #' mcmcrun <- aap(sol4, sol4indices, AAP.control(control, mcmc=TRUE))
 
-aap <- function(stock, indices, control, args=" ", wkdir=tempfile()) {
+aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
+  stdfile="missing") {
 
   # CHECK inputs
   # surveys age ranges covered by stock
@@ -112,6 +114,9 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile()) {
   capture.output(makeDAT(stock, numYr, qplat_Fmatrix,qplat_surveys,F_age_knots,
     F_time_knots,W_time_knots, numAges, pGrp, indMPs, selSpline, X, WSpline,
     tquants), file=file.path(wkdir,"aap.dat"))
+
+  if(!missing(stdfile))
+    capture.output(stdfile2pin(stdfile), file=file.path(wkdir,"aap.pin"))
   
   # 
   dmns     <- list(year=years, age=1:numAges)

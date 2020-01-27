@@ -192,3 +192,17 @@ setMethod("landings", signature(object="AAP"), function(object) {
 setMethod("discards", signature(object="AAP"), function(object) {
   return(quantSums(discards.n(object) * discards.wt(object)))
 }) # }}}
+
+stdfile2pin <- function(x) {
+
+  # SPLIT by name
+  pin <- split(x, as.character(x$name))
+  pin <- pin[match(as.character(unique(x$name)), names(pin))]
+
+  plist <- lapply(pin, "[", , "mean")
+
+  for(i in names(plist)) {
+    cat(paste0("#", i, "\n"))
+    cat(plist[[i]], "\n")
+    }
+}

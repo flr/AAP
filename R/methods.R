@@ -118,27 +118,21 @@ setMethod("+", signature(e1="FLStock", e2="AAP"),
 # }}}
 
 # residuals {{{
-# https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/influence.measures
-# TODO residuals(aap,FLS,FLIs)
-
 setMethod(residuals, signature(object="AAP"),
-  function(object, stock=missing, indices=missing) {
+  function(object, stock=missing) {
 
-    
     # SURVEY(s)
-
-    # index
-    sobs <- index(object)
-    sfit <- index.hat(object)
-
-    res <- FLQuants(mapply(function(x, y)
-      Reduce(stdlogres, intersect(x, y)), sobs, sfit))
+    res <- object@index.res
 
     if(!missing(stock))
-      res <- c(FLQuants(
-        landings.n=stdlogres(landings.n(stock), landings.n(object)),
-        discards.n=stdlogres(landings.n(stock), landings.n(object))))
-
+      res <- FLQuants(c(res, FLQuants(
+        landings.n=residuals(landings.n(stock), landings.n(object)),
+        discards.n=residuals(landings.n(stock), landings.n(object)),
+        catch=residuals(catch(stock),
+          quantSums(landings.n(object) * landings.wt(object) +
+            discards.n(object) * discards.wt(object))))))
+    else
+      res <- object@index.res
     return(res)
   }
 ) # }}}
@@ -193,6 +187,7 @@ setMethod("discards", signature(object="AAP"), function(object) {
   return(quantSums(discards.n(object) * discards.wt(object)))
 }) # }}}
 
+# stdfile2pin {{{
 stdfile2pin <- function(x) {
 
   # SPLIT by name
@@ -205,4 +200,4 @@ stdfile2pin <- function(x) {
     cat(paste0("#", i, "\n"))
     cat(plist[[i]], "\n")
     }
-}
+} # }}}

@@ -81,7 +81,8 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   for (ii in 1:length(quants)){
     if (!(ii %in% c(3,4,5))) {
       quants[[ii]] <- quants[[ii]] + min(c(quants[[ii]])[!quants[[ii]]==0],
-        na.rm=TRUE)/2}
+        na.rm=TRUE)/2
+    }
     quants[[ii]][is.na(quants[[ii]])] <- round(-1,0)
   }
   

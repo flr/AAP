@@ -30,13 +30,13 @@ NULL
 
 aap.dir <- function () {
   if (os.type("linux")) {
-    fnm <- system.file("bin/linux", package = "AAP")
+    fnm <- system.file("bin/linux", package = "AAPS")
   }
   else if (os.type("osx")) {
-    fnm <- system.file("bin/osx", package = "AAP")
+    fnm <- system.file("bin/osx", package = "AAPS")
   }
   else if (os.type("windows")) {
-    fnm <- system.file("bin/windows", package = "AAP")
+    fnm <- system.file("bin/windows", package = "AAPS")
   }
   else {
     stop("Unknown OS")

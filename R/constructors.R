@@ -12,6 +12,7 @@
 #' @param pGrp=TRUE
 #' @param qplat.surveys=5
 #' @param qplat.Fmatrix=5
+#' @param Sage.knots=5
 #' @param Fage.knots=5
 #' @param Ftime.knots=5
 #' @param Wtime.knots=7
@@ -25,14 +26,14 @@
 
 # TODO CONVERT to method(s)
 AAP.control <- function(x=NULL, pGrp=TRUE, qplat.surveys=5,
-  qplat.Fmatrix=5, Fage.knots=5, Ftime.knots=5, Wtime.knots=7, mcmc=F) {
+  qplat.Fmatrix=5, Sage.knots=7, Fage.knots=5, Ftime.knots=5, Wtime.knots=7, mcmc=F) {
 
   # NEW control
   if (is.null(x)) {
 
     x <- new("AAP.control", 
       pGrp=as.logical(pGrp)[1], qplat.surveys=as.integer(qplat.surveys),
-      qplat.Fmatrix=as.integer(qplat.Fmatrix),
+      qplat.Fmatrix=as.integer(qplat.Fmatrix), Sage.knots=as.integer(Sage.knots),
       Fage.knots=as.integer(Fage.knots), Ftime.knots=as.integer(Ftime.knots),
       Wtime.knots=as.integer(Wtime.knots), mcmc=as.logical(mcmc)[1])
 

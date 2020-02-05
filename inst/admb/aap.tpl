@@ -8,6 +8,7 @@ DATA_SECTION
   init_int    qplat_surveys
   init_int    minFbar
   init_int    maxFbar
+  init_int    S_age_knots
   init_int    F_age_knots
   init_int    F_time_knots
   init_int    W_time_knots
@@ -28,7 +29,8 @@ DATA_SECTION
  !! TRACE(obs_landings);
   init_number M
   init_vector maturity(1,nages)
-  init_matrix bs1(1,F_age_knots,1,qplat_surveys) 
+  init_matrix bs1(1,S_age_knots,1,qplat_surveys) 
+  !! TRACE(bs1);
   init_matrix X1(1,qplat_Fmatrix*nyrs,1,F_age_knots*F_time_knots)
   init_matrix bs3(1,W_time_knots,1,nyrs)
   !! TRACE(bs3); 
@@ -57,7 +59,7 @@ PARAMETER_SECTION
   init_number logSWfact(1)
   // init_number logDWfact(1)
   init_vector log_sel_coff1(1,F_age_knots*F_time_knots,1)
-  init_matrix log_sel_cofU(1,no_surveys,1,F_age_knots,1)
+  init_matrix log_sel_cofU(1,no_surveys,1,S_age_knots,1)
   init_vector disc_curve(1,2,1)
   init_bounded_number logK(-2,3,1)
   init_vector log_temp_wts_Linf(1,W_time_knots,2)

@@ -13,7 +13,7 @@
 #' @examples
 #' data(sol4)
 #' control <- AAP.control(pGrp=TRUE, qplat.surveys=7, qplat.Fmatrix=8,
-#'   Fage.knots=6, Ftime.knots=22, Wtime.knots=5, mcmc=FALSE)
+#'   Sage.knots=7, Fage.knots=6, Ftime.knots=22, Wtime.knots=5, mcmc=FALSE)
 #' run <- aap(sol4, indices=indices, control=control)
 #' run <- aap(sol4, indices=indices, control=control, stdfile=run@stdfile)
 #' mcmcrun <- aap(sol4, sol4indices, AAP.control(control, mcmc=TRUE))
@@ -31,6 +31,7 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   pGrp           <- control@pGrp
   qplat_surveys  <- control@qplat.surveys
   qplat_Fmatrix  <- control@qplat.Fmatrix  
+  S_age_knots    <- control@Sage.knots
   F_age_knots    <- control@Fage.knots
   F_time_knots   <- control@Ftime.knots
   W_time_knots   <- control@Wtime.knots
@@ -39,7 +40,6 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   nunits <- units(catch.n(stock))
   wunits <- units(catch.wt(stock))
 
-   
   # Number of years
   years <- as.numeric(range(stock)["minyear"]:range(stock)["maxyear"])
   numYr <- length(years)
@@ -60,8 +60,8 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   # CALCULATE splines
   
   # selectivity surveys
-  selSpline <- format(t(matrix(bs(1:qplat_surveys,F_age_knots,intercept=T),
-    ncol=F_age_knots)),nsmall=9)
+  selSpline <- format(t(matrix(bs(1:qplat_surveys,S_age_knots,intercept=T),
+    ncol=S_age_knots)),nsmall=9)
  
   #USE TENSOR spline instead
   # now make design matrix for F over ages and time, and for U1
@@ -112,9 +112,9 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   fname <- file.path(wkdir, "aap")
 
   # CREATE .dat file
-  capture.output(makeDAT(stock, numYr, qplat_Fmatrix,qplat_surveys,F_age_knots,
-    F_time_knots,W_time_knots, numAges, pGrp, indMPs, selSpline, X, WSpline,
-    tquants), file=file.path(wkdir,"aap.dat"))
+  capture.output(makeDAT(stock, numYr, qplat_Fmatrix,qplat_surveys,S_age_knots,  
+    F_age_knots, F_time_knots,W_time_knots, numAges, pGrp, indMPs, selSpline,
+    X, WSpline, tquants), file=file.path(wkdir,"aap.dat"))
 
   if(!missing(stdfile))
     capture.output(stdfile2pin(stdfile), file=file.path(wkdir,"aap.pin"))
@@ -129,10 +129,7 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
     range(stock)[c("min", "max", "minyear", "maxyear", "minfbar", "maxfbar")]
   
   # RUN
-
-  # McMC
   if (!control@mcmc) {
-
     if (file.exists("aap.std")) file.remove("aap.std")
     echo <- system(paste0("cd ",
       shQuote(wkdir), ";aap -nox -ind aap.dat ", args))
@@ -167,6 +164,7 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
     res@stock.wt <- as.FLQuant(t(matrix(data.matrix(estSWT),
       nrow=nyears, dimnames=dmns)), units=wunits)
         
+  # McMC
   } else if (control@mcmc) {
     
     # MLE run if no std

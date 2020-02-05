@@ -39,8 +39,8 @@
 #' data(sol4)
 
 # makedat {{{
-makeDAT <- function(stock, numYr, qplat_Fmatrix, qplat_surveys, F_age_knots,
-  F_time_knots, W_time_knots, numAges, pGrp, indMPs, selSpline, X,
+makeDAT <- function(stock, numYr, qplat_Fmatrix, qplat_surveys, S_age_knots,
+  F_age_knots, F_time_knots, W_time_knots, numAges, pGrp, indMPs, selSpline, X,
   WSpline, tquants) {
 
   cat("#############\n")
@@ -49,7 +49,8 @@ makeDAT <- function(stock, numYr, qplat_Fmatrix, qplat_surveys, F_age_knots,
 
   cat("# years:",range(stock)["minyear"],"-",range(stock)["maxyear"]," ; ages:",range(stock)["min"],"-",range(stock)["max"],"; q plateau Fmatrix; q plateau surveys ; Fbar range", range(stock)["minfbar"],"-", range(stock)["maxfbar"], "; number of knots in time spline \n")
 
-  cat(numYr, numAges, qplat_Fmatrix, qplat_surveys, range(stock)["minfbar"],range(stock)["maxfbar"], F_age_knots, F_time_knots, W_time_knots, as.integer(pGrp),"\n")
+  cat(numYr, numAges, qplat_Fmatrix, qplat_surveys, range(stock)["minfbar"],range(stock)["maxfbar"], S_age_knots, F_age_knots, F_time_knots, W_time_knots,
+  as.integer(pGrp),"\n")
 
   cat(length(indMPs), unlist(indMPs))
   
@@ -76,7 +77,7 @@ makeDAT <- function(stock, numYr, qplat_Fmatrix, qplat_surveys, F_age_knots,
   tmp[is.na(tmp)] <- round(-1,0)
   write.table(tmp, row.names=F, col.names=F,quote=F)
   
-  cat("#############\n# Selectivity spline (surveys): F_age_knot knots, qplat_surveys ages (last ages are equal)","\n")
+  cat("#############\n# Selectivity spline (surveys): S_age_knot knots, qplat_surveys ages (last ages are equal)","\n")
   write.table(selSpline, row.names=F, col.names=F,quote=F)
   
   # TODO WHY this?

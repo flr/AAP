@@ -120,18 +120,15 @@ setMethod("+", signature(e1="FLStock", e2="AAP"),
 
 # residuals {{{
 setMethod(residuals, signature(object="AAP"),
-  function(object, stock=missing) {
+  function(object, stock=missing, type="log") {
 
     # SURVEY(s)
     res <- object@index.res
 
     if(!missing(stock))
       res <- FLQuants(c(res, FLQuants(
-        landings.n=residuals(landings.n(stock), landings.n(object)),
-        discards.n=residuals(landings.n(stock), landings.n(object)),
-        catch=residuals(catch(stock),
-          quantSums(landings.n(object) * landings.wt(object) +
-            discards.n(object) * discards.wt(object))))))
+        landings.n=residuals(landings.n(stock), landings.n(object), type=type),
+        discards.n=residuals(discards.n(stock), discards.n(object), type=type))))
     else
       res <- object@index.res
     return(res)

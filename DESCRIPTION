@@ -1,7 +1,7 @@
 Package: AAP
 Title: Aarts and Poos Stock Assessment Model that Estimates Bycatch
-Version: 0.2.0
-Date: 2020-02-05
+Version: 0.2.1
+Date: 2020-02-19
 Authors@R: c(person(given = 'Iago', family = 'Mosqueira', role = c('aut', 'cre'),
             email = 'iago.mosqueira@wur.nl'))
 Description: FLR version of Aarts and Poos stock assessment model

@@ -4,86 +4,39 @@ author: Iago Mosqueira, EC JRC G03
 license: Creative Commons Attribution-ShareAlike 4.0 International
 ---
 
-# Package structure
+# stdfile
 
-- README.md
-- NEWS.md
-- .travis.yml
-- .Rbuildignore
-- Makefile
-- CITATION
-
-## Vignette
-
-Create at least one vignette, presenting some example uses of the package capabilities and, if neccessary, briefly documenting the new classes and methods in the package.
-
-- [rmarkdown package_vignette format](http://rmarkdown.rstudio.com/package_vignette_format.html)
-- [rmarkdown html_document format](http://rmarkdown.rstudio.com/html_document_format.html)
-- [Bibliographies and Citations](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-
-## /data
-
-## tests/testthat
-
-# WORKFLOWS
-
-## Create new package (or make existing one follow this style)
-
-- EDIT DESCRIPTION
-- ADD NAMESPACE
-- ADD R files following templates for roxygen documentation
-- EDIT README.md
-- EDIT inst/CITATION
-
-## Add new code / fix a bug
-
-- CHANGE code in R files
-- ADD entry in NEWS.md
-- RUN 'make test' and check test passes
-- git add -A .
-- git commit -m 'Message used in NEWS.md'
-- EDIT Version and Date in DESCRIPTION
-- RUN 'make README.md'
-- git add .
-- git commit -m 'Version `sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION`'
-- git push
-
-## Add or alter roxygen documentation
-
-- CHANGE entry in R file(s)
-- Run 'make roxygen'
-- Run 'make gh-pages'
-- git add -A .
-- git commit -m 'Updated documentation for ...'
-- git push
+REPORT_SECTION
+  report << "Likelihoods f, f_la, f_da, f_s1, f_s2, f_s3, f_lw, f_sw" << endl;
+  report << f  <<endl << f_la << endl <<  f_da << endl << f_s  << endl << f_lw  << endl << f_sw << endl;
+  report << "log_self1"         << endl << log_self1 << endl;
+  report << "log_selU"          << endl << log_selU << endl;
+  report << "sigmaL"            << endl << sigmaL    << endl;
+  report << "sigmaD"            << endl << sigmaD    << endl;
+  report << "sigmaU"            << endl << sigmaU   << endl;
+  report << "Estimated l@a"     << endl << L         << endl;
+  report << "Estimated d@a"     << endl << D         << endl;
+  report << "Estimated surveys" << endl << U         << endl;
+  report << "Estimated N"       << endl << N         << endl;
+  report << "Estimated F"       << endl << F         << endl;
+  report << "Estimated Fbar (" << minFbar << "-" << maxFbar << ")" << endl << Fbar << endl ;
+  report << "Estimated SSB from est wts"     << endl << SSBe       << endl;
+  report << "Estimated SSB from obs wts"     << endl << SSBo       << endl;
+  report << "Estimated TSB"     << endl << TSB       << endl;
+  report << "Estimated LWT"     << endl << LWT       << endl;
+  // report << "Estimated DWT"     << endl << DWT       << endl;
+  report << "Estimated SWT"     << endl << SWT       << endl;
+  report << "loga0"             << endl << loga0     << endl; 
+  report << "K"                 << endl << mfexp(-logK)  << endl;
+  report << "Linf"              << endl << mfexp(Linf) << endl;
+  report << "STF" << endl;
+  report << "Int_yr_rec Int_yr_ssb Int_yr_landings" << endl;
+  report << recTAC << " " << ssbTACyr << " " << intC << endl;
+  report << "Fvec TAC resultant_ssb" << endl;
+  report << Fvec << endl;
+  report << TAC << endl;
+  report << SSBstf << endl;
+  report << "value lwt nyrs " << value(row(LWT,nyrs)) << endl;
+  report <<  Fmax <<  " " << YPRmax << endl;
 
 
-# HOW TO convert pkgs to use gh-pages using staticdocs
-
-1. ADD README.md following template
-2. COPY Makefile
-3. CREATE an empty gh-pages branch
-
-	git checkout --orphan gh-pages
-	git rm -rf .
-
-4. ADD a README.md to the branch
-
-	touch README.md
-	git add README.md
-
-5. COMMIT and PUSH branch
-	
-	git commit -a -m "First gh-pages commit"
-	git push origin gh-pages
-
-# PKG CHECKLIST
-
-- COPY folder and rename as per package name
-- EDIT DESCRIPTION
-    - Version: You can follow [Hadley Wickam's format](http://r-pkgs.had.co.nz/description.html#version)
-    - 
-
-# MORE INFO
-
-- [R packages](http://r-pkgs.had.co.nz/)

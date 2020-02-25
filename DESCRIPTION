@@ -4,7 +4,7 @@ Version: 0.2.1
 Date: 2020-02-19
 Authors@R: c(person(given = 'Iago', family = 'Mosqueira', role = c('aut', 'cre'),
             email = 'iago.mosqueira@wur.nl'))
-Description: FLR version of Aarts and Poos stock assessment model
+Description: FLR version of Aarts and Poos stock assessment model.
 Depends:
   methods,
   FLCore,
@@ -24,5 +24,5 @@ License: EUPL
 LazyLoad: Yes
 LazyData: No
 Roxygen: list(markdown = TRUE)
-BugReports: https://github.com/XX/XX/issues
+BugReports: https://github.com/flr/AAP/issues
 RoxygenNote: 7.0.2

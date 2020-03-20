@@ -188,6 +188,9 @@ setMethod("discards", signature(object="AAP"), function(object) {
 # stdfile2pin {{{
 stdfile2pin <- function(x) {
 
+  # SUBSET
+  x <- subset(x, !name %in% c("Fbar", "SSBe", "SSBo"))
+
   # SPLIT by name
   pin <- split(x, as.character(x$name))
   pin <- pin[match(as.character(unique(x$name)), names(pin))]
@@ -198,4 +201,34 @@ stdfile2pin <- function(x) {
     cat(paste0("#", i, "\n"))
     cat(plist[[i]], "\n")
     }
+} # }}}
+
+# metricsAAP {{{
+
+metricsAAP <- function(object) {
+
+  yrs <- dimnames(object@stock.n)$year
+  ags <- seq(1, dims(object)$max - 1)
+
+  # DEFINE metrics
+  mets <- c(Rec="log_initpop", SSB="SSBo", F="Fbar")
+
+  # EXTRACT from stdfile
+  dat <- lapply(mets, function(x) subset(object@stdfile, name == x))
+
+  # DELETE log_initpop[1:9, ], refer to initpop at year=1
+  dat$Rec <- dat$Rec[ags * -1,]
+  
+  # EXPONENTIATE Rec
+  dat$Rec$mean <- exp(dat$Rec$mean)
+  dat$Rec$stdev <- exp(dat$Rec$stddev)
+
+  res <- rbindlist(lapply(dat, function(x) {
+    data.frame(year=as.numeric(yrs), mean=as.numeric(x$mean),
+      lowq=x$mean - 2 * x$stddev, uppq=x$mean + 2 * x$stddev)
+  }), idcol="qname")
+
+  colnames(res)[3] <- "data"
+
+  return(res)
 } # }}}

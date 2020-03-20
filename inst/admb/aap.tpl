@@ -63,7 +63,7 @@ PARAMETER_SECTION
   init_vector disc_curve(1,2,1)
   init_bounded_number logK(-2,3,1)
   init_vector log_temp_wts_Linf(1,W_time_knots,2)
-  init_vector log_initpop(1,nyrs+nages-1,1)
+  init_vector log_initpop(1,nages+nyrs-1,1)
   vector sigmaL(1,nages)
   vector sigmaD(1,nages)
   matrix sigmaU(1,no_surveys,1,nages)

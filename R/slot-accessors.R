@@ -120,7 +120,7 @@ setMethod("index.hat", signature(object="AAP"),
 setMethod("rec", signature(object="AAP"),
   function(object) {
 
-    tab <- metricsAAP(object)[qname == "Rec",]
+    tab <- subset(metricsAAP(object), qname == "Rec")
 
     fqs <- setNames(lapply(c("data", "lowq", "uppq"),
       function(x) FLQuant(tab[[x]], dimnames=list(age=1, year=tab$year))),
@@ -134,7 +134,7 @@ setMethod("rec", signature(object="AAP"),
 setMethod("ssb", signature(object="AAP"),
   function(object) {
 
-    tab <- metricsAAP(object)[qname == "SSB",]
+    tab <- subset(metricsAAP(object), qname == "SSB")
 
     fqs <- setNames(lapply(c("data", "lowq", "uppq"),
       function(x) FLQuant(tab[[x]], dimnames=list(age=1, year=tab$year))),
@@ -148,7 +148,7 @@ setMethod("ssb", signature(object="AAP"),
 setMethod("fbar", signature(object="AAP"),
   function(object) {
 
-    tab <- metricsAAP(object)[qname == "F",]
+    tab <- subset(metricsAAP(object), qname == "F")
 
     fqs <- setNames(lapply(c("data", "lowq", "uppq"),
       function(x) FLQuant(tab[[x]], dimnames=list(age=1, year=tab$year))),

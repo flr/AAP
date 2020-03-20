@@ -115,3 +115,45 @@ setMethod("index.hat", signature(object="AAP"),
   function(object) {
     return(slot(object, "index.hat"))
   })
+
+# rec
+setMethod("rec", signature(object="AAP"),
+  function(object) {
+
+    tab <- metricsAAP(object)[qname == "Rec",]
+
+    fqs <- setNames(lapply(c("data", "lowq", "uppq"),
+      function(x) FLQuant(tab[[x]], dimnames=list(age=1, year=tab$year))),
+      c("mean", "lowq", "uppq"))
+
+    return(do.call("FLQuantPoint", c(fqs, units="thousands")))
+  }
+)
+
+# ssb
+setMethod("ssb", signature(object="AAP"),
+  function(object) {
+
+    tab <- metricsAAP(object)[qname == "SSB",]
+
+    fqs <- setNames(lapply(c("data", "lowq", "uppq"),
+      function(x) FLQuant(tab[[x]], dimnames=list(age=1, year=tab$year))),
+      c("mean", "lowq", "uppq"))
+
+    return(do.call("FLQuantPoint", c(fqs, units="t")))
+  }
+)
+
+# fbar
+setMethod("fbar", signature(object="AAP"),
+  function(object) {
+
+    tab <- metricsAAP(object)[qname == "F",]
+
+    fqs <- setNames(lapply(c("data", "lowq", "uppq"),
+      function(x) FLQuant(tab[[x]], dimnames=list(age=1, year=tab$year))),
+      c("mean", "lowq", "uppq"))
+
+    return(do.call("FLQuantPoint", c(fqs, units="f")))
+  }
+)

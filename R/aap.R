@@ -6,6 +6,8 @@
 #
 # Distributed under the terms of the GPL 3.0
 
+# aap {{{
+
 #' @param stock
 #' @param indices
 #' @param control
@@ -15,11 +17,11 @@
 #' control <- AAP.control(pGrp=TRUE, qplat.surveys=7, qplat.Fmatrix=8,
 #'   Sage.knots=7, Fage.knots=6, Ftime.knots=22, Wtime.knots=5, mcmc=FALSE)
 #' run <- aap(sol4, indices=indices, control=control)
-#' run <- aap(sol4, indices=indices, control=control, stdfile=run@stdfile)
+#' run <- aap(sol4, indices=indices, control=control, pin=stfdile(run))
 #' mcmcrun <- aap(sol4, sol4indices, AAP.control(control, mcmc=TRUE))
 
 aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
-  stdfile="missing") {
+  pin="missing") {
 
   # CHECK inputs
   # surveys age ranges covered by stock
@@ -116,8 +118,11 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
     F_age_knots, F_time_knots,W_time_knots, numAges, pGrp, indMPs, selSpline,
     X, WSpline, tquants), file=file.path(wkdir,"aap.dat"))
 
-  if(!missing(stdfile))
-    capture.output(stdfile2pin(stdfile), file=file.path(wkdir,"aap.pin"))
+  if(!missing(pin))
+    capture.output(stdfile2pin(pin), file=file.path(wkdir,"aap.pin"))
+  else
+    capture.output(stdfile2pin(pin(stock, indices, control)),
+      file=file.path(wkdir,"aap.pin"))
   
   # 
   dmns     <- list(year=years, age=1:numAges)
@@ -283,4 +288,4 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   res@call <- deparse(sys.calls()[[sys.nframe()]])
   
   return(res)
-}
+} # }}}

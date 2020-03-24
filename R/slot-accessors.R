@@ -6,6 +6,7 @@
 #
 # Distributed under the terms of the %LICENSE%
 
+# ACCESSORS {{{
 
 # landings.wt
 setMethod("landings.wt", signature(object="AAP"),
@@ -116,6 +117,10 @@ setMethod("index.hat", signature(object="AAP"),
     return(slot(object, "index.hat"))
   })
 
+# }}}
+
+# metrics {{{
+
 # rec
 setMethod("rec", signature(object="AAP"),
   function(object) {
@@ -156,4 +161,11 @@ setMethod("fbar", signature(object="AAP"),
 
     return(do.call("FLQuantPoint", c(fqs, units="f")))
   }
-)
+) # }}}
+
+# params {{{
+setMethod("params", signature(object="AAP"),
+  function(object) {
+    return(object@stdfile)
+  }
+) # }}}

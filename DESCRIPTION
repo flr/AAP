@@ -13,7 +13,8 @@ Depends:
 Imports: 
   FLAssess,
   splines,
-  mgcv
+  mgcv,
+  patchwork
 Additional_repositories: http://flr-project.org/R
 Suggests:
     testthat,

@@ -18,15 +18,15 @@ DATA_SECTION
   init_vector time_surv(1,no_surveys)
   !! TRACE(time_surv);
   init_matrix obs_landings_at_age(1,nyrs,1,nages)
- !! TRACE(obs_landings_at_age);
+  !! TRACE(obs_landings_at_age);
   init_matrix obs_discards_at_age(1,nyrs,1,nages)
   init_matrix landings_weights(1,nyrs,1,nages)
   init_matrix discards_weights(1,nyrs,1,nages)
   init_matrix stock_weights(1,nyrs,1,nages)
- !! TRACE(stock_weights);
+  !! TRACE(stock_weights);
   init_3darray obs_surv(1,no_surveys,1,nyrs,1,nages)
   init_vector obs_landings(1,nyrs)
- !! TRACE(obs_landings);
+  !! TRACE(obs_landings);
   init_number M
   init_vector maturity(1,nages)
   init_matrix bs1(1,S_age_knots,1,qplat_surveys) 

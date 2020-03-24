@@ -1,6 +1,7 @@
 import("FLCore")
 import("FLAssess")
 import("ggplotFL")
+import("patchwork")
 
 importFrom("splines",
   "bs")
@@ -36,6 +37,7 @@ exportMethods(
   "discards.var",
   "rec",
   "ssb",
+  "plot",
   "fbar",
   "stdfile",
   "stock.n",

@@ -232,3 +232,10 @@ metricsAAP <- function(object) {
 
   return(res)
 } # }}}
+
+# metrics {{{
+setMethod("metrics", signature(object="AAP", metrics="missing"),
+  function(object) {
+    return(metrics(object, metrics=list(Rec=rec, SSB=ssb, Catch=catch, F=fbar)))
+  }
+) # }}}

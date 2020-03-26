@@ -14,14 +14,14 @@
 #' @param args
 #' @examples
 #' data(sol4)
-#' control <- AAP.control(pGrp=TRUE, qplat.surveys=7, qplat.Fmatrix=8,
-#'   Sage.knots=7, Fage.knots=6, Ftime.knots=22, Wtime.knots=5, mcmc=FALSE)
+#' control <- AAP.control(pGrp=TRUE, qplat.surveys=8, qplat.Fmatrix=9,
+#'   Sage.knots=6, Fage.knots=8, Ftime.knots=28, Wtime.knots=5, mcmc=FALSE)
 #' run <- aap(sol4, indices=indices, control=control)
-#' run <- aap(sol4, indices=indices, control=control, pin=stfdile(run))
+#' run <- aap(sol4, indices=indices, control=control, pin=stdfile(run))
 #' mcmcrun <- aap(sol4, sol4indices, AAP.control(control, mcmc=TRUE))
 
 aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
-  pin="missing") {
+  pin="missing", model="sole") {
 
   # CHECK inputs
   # surveys age ranges covered by stock
@@ -111,18 +111,18 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
     
   dir.create(wkdir, showWarnings = FALSE)
 
-  fname <- file.path(wkdir, "aap")
+  fname <- file.path(wkdir, model)
 
   # CREATE .dat file
   capture.output(makeDAT(stock, numYr, qplat_Fmatrix,qplat_surveys,S_age_knots,  
     F_age_knots, F_time_knots,W_time_knots, numAges, pGrp, indMPs, selSpline,
-    X, WSpline, tquants), file=file.path(wkdir,"aap.dat"))
+    X, WSpline, tquants), file=file.path(wkdir, paste0(model, ".dat")))
 
   if(!missing(pin))
-    capture.output(stdfile2pin(pin), file=file.path(wkdir,"aap.pin"))
+    capture.output(stdfile2pin(pin), file=file.path(wkdir, paste0(model, ".pin")))
   else
     capture.output(stdfile2pin(pin(stock, indices, control)),
-      file=file.path(wkdir,"aap.pin"))
+      file=file.path(wkdir,paste0(model, ".pin")))
   
   # 
   dmns     <- list(year=years, age=1:numAges)
@@ -135,9 +135,9 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   
   # RUN
   if (!control@mcmc) {
-    if (file.exists("aap.std")) file.remove("aap.std")
+    if (file.exists(paste0(model, ".std"))) file.remove(paste0(model, ".std"))
     echo <- system(paste0("cd ",
-      shQuote(wkdir), ";aap -nox -ind aap.dat ", args))
+      shQuote(wkdir), paste0(";", model, " -nox -ind ", model, ".dat ", args)))
    
     #First see if std file exists. If not: trouble
     if (file.exists(paste0(fname, ".std"))) {
@@ -178,10 +178,10 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
         control=AAP.control(control, mcmc=FALSE))
 
     echo <- system(paste0("cd ",
-      shQuote(wkdir), ";aap -mcmc 1e5 -mcsave 1e2", args))
+      shQuote(wkdir), paste0(";", model, " -mcmc 1e5 -mcsave 1e2", args)))
 
     echo <- system(paste0("cd ",
-      shQuote(wkdir), ";aap -mceval"))
+      shQuote(wkdir), paste0(";", model, " -mceval")))
 
     repFull <- readLines(paste0(fname,".rep"), n=-1)
     stdfile <- readLines(paste0(fname,".std"))

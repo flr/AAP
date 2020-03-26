@@ -7,7 +7,6 @@
 # Distributed under the terms of the GPL 3.0
 
 
-library(FLCore)
 library(AAP)
 
 sol4 <- readFLStock("sol4/index.txt", na.strings="-1")
@@ -30,12 +29,16 @@ sol4 <- setPlusGroup(sol4, 10)
 indices <- readFLIndices("sol4/fleet.txt", na.strings="-1")
 
 # SUBSET indices
-indices <- indices[c("BTS-ISIS", "SNS")]
+indices <- indices[c("BTS", "SNS")]
 
 # --- SA
 
 # RUN
-fit <- aap(sol4, indices, control=AAP.control())
+
+control <- AAP.control(pGrp=TRUE, qplat.surveys=8, qplat.Fmatrix=9,
+  Sage.knots=6, Fage.knots=8, Ftime.knots=28, Wtime.knots=5, mcmc=FALSE)
+
+fit <- aap(sol4, indices, control=control, model="sole")
 
 # --- SAVE
 

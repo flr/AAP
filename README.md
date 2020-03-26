@@ -1,6 +1,6 @@
 # FLPKG
-- Version: 0.2.3
-- Date: 2020-03-20
+- Version: 0.2.4
+- Date: 2020-03-26
 - Author: %USER%
 - Maintainer: %USER2% <me@my.com>
 - Repository: <https://github.com/flr/FLPKG/>

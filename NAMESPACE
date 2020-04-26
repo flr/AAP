@@ -14,7 +14,8 @@ exportClasses(
   "AAP")
 
 export("aap",
-  "AAP.control")
+  "AAP.control",
+  "sigmas")
 
 exportMethods(
   "catch",

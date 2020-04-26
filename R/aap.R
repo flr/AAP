@@ -248,14 +248,14 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   res@landings.wt <- as.FLQuant(t(matrix(data.matrix(estLWT),
     nrow=nyears, dimnames=dmns)), units=wunits)
   res@landings.var <- as.FLQuant(t(matrix(data.matrix(estsigmaL),
-    nrow=1, dimnames=hatdmns)), units=paste0(nunits, "^2"))
+    nrow=1, dimnames=hatdmns)), units=nunits)
   
   res@discards.n   <- as.FLQuant(t(matrix(data.matrix(estDAA),
     nrow=nyears, dimnames=dmns)), units=nunits)
   # TODO CHECK w/JJP
   res@discards.wt <- stock@discards.wt
   res@discards.var <- as.FLQuant(t(matrix(data.matrix(estsigmaD),
-    nrow=1, dimnames=hatdmns)), units=paste0(nunits, "^2"))
+    nrow=1, dimnames=hatdmns)), units=nunits)
   
   res@catch.n <- res@discards.n + res@landings.n 
   

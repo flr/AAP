@@ -10,7 +10,25 @@
 
 setMethod("plot", signature(x="AAP", y="missing"),
   function(x) {
-    plot(metrics(x))
+
+    dat <- metrics(x)
+   
+    ps <- lapply(dat, plot)
+   
+    ps[1:3] <- lapply(ps[1:3], "+",  theme(
+      plot.margin = unit(c(0.25,0.25,0,0), units = "lines" ),
+      axis.text.x = element_blank(), axis.title.x = element_blank(),
+      axis.ticks.x = element_blank()))
+    
+    ps[[4]] <- ps[[4]] + theme(
+      plot.margin = unit(c(0.25,0.25,0,0), units = "lines" ))
+
+    ps <- mapply("+", ps, list(ylab("Recruits (thousands)"), ylab("SSB (t)"),
+      ylab("Catch (t)"),
+      ylab(paste0("F (", paste(unname(range(x)[c("minfbar", "maxfbar")]), collapse="-"),
+        ")")) ), SIMPLIFY=FALSE)
+
+    Reduce("/", ps)
   }
 )
 
@@ -52,14 +70,25 @@ setMethod("plot", signature(x="AAP", y="FLPar"),
 # plot(AAP, FLStocks) {{{
 
 setMethod("plot", signature(x="AAP", y="FLStocks"),
-  function(x, y, ...) {
+  function(x, y, mrho="missing", ...) {
 
     x <- metrics(x)[c("Rec", "SSB", "F")] 
     y <- lapply(list(Rec=rec, SSB=ssb, F=fbar), function(i) 
       FLQuants(lapply(y, metrics, i)))
 
-    Reduce("/", mapply(function(x, y, z) plot(x, y) + ylab(z),
-      x, y, list("Recruits (thousands)", "SSB (tonnes)", " F (2-6)"),
-      SIMPLIFY=FALSE))
+    if(missing(mrho))
+      Reduce("/", mapply(function(x, y, z) plot(x, y) + ylab(z),
+        x, y, list("Recruits (thousands)", "SSB (tonnes)", " F (2-6)"),
+        SIMPLIFY=FALSE))
+    else {
+      mrho <- setNames(lapply(names(mrho),
+        function(x) paste0("rho(", x, ") = ", format(mrho[[x]], digits=3))),
+          names(mrho))[names(x)]
+
+      Reduce("/", mapply(function(x, y, z, a)
+        plot(x, y) + ylab(z) + ggtitle(a),
+        x, y,list("Recruits (thousands)", "SSB (tonnes)", "F (2-6)"),
+        mrho, SIMPLIFY=FALSE))
+    }
   }
 ) # }}}

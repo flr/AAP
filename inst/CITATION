@@ -1,13 +1,15 @@
 citHeader("To cite FLPKG in a publication, please use:")
 
 citEntry(
-  entry="Article/Report",
-  title="",
+  entry="Article",
+  title = "Comprehensive discard reconstruction and abundance estimation using flexible selectivity functions",
   author=personList(
-		person("A.A.", "Aaaa"),
-    person("B.B.", "Bbbb")),
-  journal="",
-  year="",
-  volume="",
-  pages="",
-  textVersion="Aaaa, A.A., Bbbb, B.B. YYYY Title. Journal, Issue: Pages.")
+		person("G.", "Aarts"),
+    person("J.J.", "Poos")),
+  journal = "ICES Journal of Marine Science",
+  year="2009",
+  volume="66",
+  pages="763-771",
+  doi = "10.1093/icesjms/fsp033",
+  textVersion="G. Aarts, J. J. Poos, Comprehensive discard reconstruction and abundance estimation using flexible selectivity functions, ICES Journal of Marine Science, Volume 66, Issue 4, May 2009, Pages 763–771, https://doi.org/10.1093/icesjms/fsp033"
+)

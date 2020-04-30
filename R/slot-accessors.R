@@ -127,9 +127,9 @@ setMethod("rec", signature(object="AAP"),
 
     tab <- subset(metricsAAP(object), qname == "Rec")
 
-    fqs <- setNames(lapply(c("data", "lowq", "uppq"),
+    fqs <- setNames(lapply(c("data", "var", "lowq", "uppq"),
       function(x) FLQuant(tab[[x]], dimnames=list(age=1, year=tab$year))),
-      c("mean", "lowq", "uppq"))
+      c("mean", "var", "lowq", "uppq"))
 
     return(do.call("FLQuantPoint", c(fqs, units="thousands")))
   }
@@ -141,9 +141,9 @@ setMethod("ssb", signature(object="AAP"),
 
     tab <- subset(metricsAAP(object), qname == "SSB")
 
-    fqs <- setNames(lapply(c("data", "lowq", "uppq"),
+    fqs <- setNames(lapply(c("data", "var", "lowq", "uppq"),
       function(x) FLQuant(tab[[x]], dimnames=list(age=1, year=tab$year))),
-      c("mean", "lowq", "uppq"))
+      c("mean", "var", "lowq", "uppq"))
 
     return(do.call("FLQuantPoint", c(fqs, units="t")))
   }
@@ -155,9 +155,9 @@ setMethod("fbar", signature(object="AAP"),
 
     tab <- subset(metricsAAP(object), qname == "F")
 
-    fqs <- setNames(lapply(c("data", "lowq", "uppq"),
+    fqs <- setNames(lapply(c("data", "var", "lowq", "uppq"),
       function(x) FLQuant(tab[[x]], dimnames=list(age=1, year=tab$year))),
-      c("mean", "lowq", "uppq"))
+      c("mean", "var", "lowq", "uppq"))
 
     return(do.call("FLQuantPoint", c(fqs, units="f")))
   }

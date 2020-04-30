@@ -127,8 +127,10 @@ setMethod(residuals, signature(object="AAP"),
 
     if(!missing(stock))
       res <- FLQuants(c(res, FLQuants(
-        landings.n=residuals(landings.n(stock), landings.n(object), type=type),
-        discards.n=residuals(discards.n(stock), discards.n(object), type=type))))
+        landings.n=residuals(landings.n(stock), landings.n(object),
+          sdlog=landings.var(object), type=type),
+        discards.n=residuals(discards.n(stock), discards.n(object),
+          sdlog=discards.var(object), type=type))))
     else
       res <- object@index.res
     return(res)
@@ -216,17 +218,17 @@ metricsAAP <- function(object) {
   # EXTRACT from stdfile
   dat <- lapply(mets, function(x) subset(object@stdfile, name == x))
 
-  # DELETE log_initpop[1:9, ], refer to initpop at year=1
+  # DELETE log_initpop[1:ages-1, ], refer to initpop at year=1
   dat$Rec <- dat$Rec[ags * -1,]
   
-  # EXPONENTIATE Rec
-  dat$Rec$mean <- exp(dat$Rec$mean)
-  dat$Rec$stdev <- exp(dat$Rec$stddev)
-
   res <- rbindlist(lapply(dat, function(x) {
     data.frame(year=as.numeric(yrs), mean=as.numeric(x$mean),
-      lowq=x$mean - 2 * x$stddev, uppq=x$mean + 2 * x$stddev)
+      var=x$stddev ^ 2, lowq=x$mean - 2 * x$stddev,
+      uppq=x$mean + 2 * x$stddev)
   }), idcol="qname")
+
+  res[res$qname == "Rec", c("mean", "var", "lowq", "uppq")] <- exp(
+    res[res$qname == "Rec", c("mean", "var", "lowq", "uppq")])
 
   colnames(res)[3] <- "data"
 

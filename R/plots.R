@@ -28,6 +28,8 @@ setMethod("plot", signature(x="AAP", y="missing"),
       ylab(paste0("F (", paste(unname(range(x)[c("minfbar", "maxfbar")]), collapse="-"),
         ")")) ), SIMPLIFY=FALSE)
 
+    ps <- lapply(ps, "+", ylim(c(0,NA)))
+
     Reduce("/", ps)
   }
 )

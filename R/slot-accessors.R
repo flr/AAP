@@ -169,10 +169,3 @@ setMethod("params", signature(object="AAP"),
     return(object@stdfile)
   }
 ) # }}}
-
-# sigmas {{{
-
-sigmas <- function(fit) {
-  FLQuants(c(list(Landings=landings.var(fit), Discards=discards.var(fit)),
-    index.var(fit)))
-} # }}}

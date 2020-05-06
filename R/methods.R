@@ -221,12 +221,15 @@ metricsAAP <- function(object) {
   # DELETE log_initpop[1:ages-1, ], refer to initpop at year=1
   dat$Rec <- dat$Rec[ags * -1,]
   
+  # CREATE df
   res <- rbindlist(lapply(dat, function(x) {
     data.frame(year=as.numeric(yrs), mean=as.numeric(x$mean),
-      var=x$stddev ^ 2, lowq=x$mean - 2 * x$stddev,
-      uppq=x$mean + 2 * x$stddev)
+      # NOTE SQUARE std to get var
+      var=x$stddev ^ 2,
+      lowq=x$mean - 2 * x$stddev, uppq=x$mean + 2 * x$stddev)
   }), idcol="qname")
 
+  # EXPONENTIATE
   res[res$qname == "Rec", c("mean", "var", "lowq", "uppq")] <- exp(
     res[res$qname == "Rec", c("mean", "var", "lowq", "uppq")])
 

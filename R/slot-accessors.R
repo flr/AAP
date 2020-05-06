@@ -138,7 +138,7 @@ setMethod("rec", signature(object="AAP"),
 # ssb
 setMethod("ssb", signature(object="AAP"),
   function(object) {
-
+    
     tab <- subset(metricsAAP(object), qname == "SSB")
 
     fqs <- setNames(lapply(c("data", "var", "lowq", "uppq"),

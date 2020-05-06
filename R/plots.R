@@ -67,6 +67,7 @@ setMethod("plot", signature(x="AAP", y="FLPar"),
         label=params, colour=params), hjust=0)
   }
 )
+
 # }}}
 
 # plot(AAP, FLStocks) {{{

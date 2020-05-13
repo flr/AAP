@@ -121,14 +121,14 @@ setMethod("+", signature(e1="FLStock", e2="AAP"),
 # residuals {{{
 setMethod(residuals, signature(object="AAP"),
   function(object, stock=missing, type="log") {
-
+    
     # SURVEY(s)
     res <- object@index.res
 
     if(!missing(stock))
       res <- FLQuants(c(res, FLQuants(
         landings.n=residuals(landings.n(stock), landings.n(object),
-          sdlog=landings.var(object), type=type),
+          type=type, sdlog=landings.var(object)),
         discards.n=residuals(discards.n(stock), discards.n(object),
           sdlog=discards.var(object), type=type))))
     else
@@ -244,3 +244,9 @@ setMethod("metrics", signature(object="AAP", metrics="missing"),
     return(metrics(object, metrics=list(Rec=rec, SSB=ssb, Catch=catch, F=fbar)))
   }
 ) # }}}
+
+# sigmas {{{
+sigmas <- function(fit) {
+  FLQuants(c(list(Landings=landings.var(fit), Discards=discards.var(fit)),
+    index.var(fit)))
+}

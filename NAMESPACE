@@ -14,7 +14,8 @@ exportClasses(
   "AAP")
 
 export("aap",
-  "AAP.control")
+  "AAP.control",
+  "sigmas")
 
 exportMethods(
   "catch",
@@ -36,6 +37,7 @@ exportMethods(
   "landings.var",
   "discards.var",
   "rec",
+  "residuals",
   "ssb",
   "plot",
   "fbar",

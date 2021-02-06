@@ -14,7 +14,9 @@ Imports:
   FLAssess,
   splines,
   mgcv,
-  patchwork
+  patchwork,
+  foreach,
+  FLasher
 Additional_repositories: http://flr-project.org/R
 Suggests:
     testthat,

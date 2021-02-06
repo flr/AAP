@@ -8,7 +8,7 @@ DATA_SECTION
   init_int    qplat_surveys
   init_int    minFbar
   init_int    maxFbar
- !! TRACE(maxFbar);
+  !! TRACE(maxFbar);
   init_int    F_age_knots
   init_int    F_time_knots
   init_int    pGrp
@@ -17,13 +17,13 @@ DATA_SECTION
   init_vector time_surv(1,no_surveys)
   !! TRACE(time_surv);
   init_matrix obs_landings_at_age(1,nyrs,1,nages)
- !! TRACE(obs_landings_at_age);
+  !! TRACE(obs_landings_at_age);
   init_matrix obs_discards_at_age(1,nyrs,1,nages)
   init_matrix stock_weights(1,nyrs,1,nages)
   init_matrix M(1,nyrs,1,nages)
   init_3darray obs_surv(1,no_surveys,1,nyrs,1,nages)
   init_vector obs_landings(1,nyrs)
- !! TRACE(obs_landings);
+  !! TRACE(obs_landings);
   init_vector maturity(1,nages)
   init_matrix bs1(1,F_age_knots,1,qplat_surveys) 
   init_matrix X1(1,qplat_Fmatrix*nyrs,1,F_age_knots*F_time_knots)

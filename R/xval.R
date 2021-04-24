@@ -9,13 +9,13 @@
 
 # aaphcxval {{{
 
-#' Compute a retrospective hindcast cross-validation of a4a stock and indices
+#' Compute a retrospective hindcast cross-validation of AAP indices
 #'
-#' The output of `a4ahcxval` consist of a list with two elements, named 'stocks'
+#' The output of `aaphcxval` consist of a list with two elements, named 'stocks'
 #' and 'indices'. The first is an object of class `FLStocks`, each a peel from
 #' the restrospective run. The second element is a list of `FLIndices` object.
 #' The first `FLIndices` object, named 'data', is a copy of the input 'indices'
-#' argument, with the additoned `catch.n` slot, if originally missing. The next
+#' argument, with the additioned `catch.n` slot, if originally missing. The next
 #' element, named as the final year of the data set, contains the naive prediction
 #' of the input `FLIndices`, while the remaining elements are the result of a
 #' hindcast prediction of the relevant indices, those within the year range of
@@ -25,46 +25,58 @@
 #' @param indices Input FLIndices object.
 #' @param nyears Number if years for retrospective, defaults to 5.
 #' @param nsq Number of years for average biology and selectivity, defaults to 3.
-#' @param fixed.ks Is the number of knots is splines with 'year' constant?
-#' @param ... Any submodels and other arguments for the call to *sca*.
+#' @param pin dsata.frame of parameter estimates to use as starting values.
 #'
 #' @return A list containing elements 'stocks', of class *FLStocks*, and
-#' 'indices', a list of *FLIndices* objects. See details for structure of this list.
+#' 'indices', a list of *FLIndices* objects. See details for the structure of this list.
 #' @examples
 #' data(sol4)
 #' sxval <- aaphcxval(sol4 + fit, indices, control=control(fit),
 #'   pin=stdfile(fit))
-#' plotXval(indices, sxval$indices)
+#' plotXval(sxval$indices)
+#' plot(window(sxval$stocks, start=2005),
+#'   metrics=list(SSB=ssb, F=fbar, Recruits=rec))
 
-aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin="missing") {
+aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL,
+  srr=predictModel(model=rec~a,
+    params=FLPar(a=exp(mean(log(window(rec(stock), end=-3)), na.rm=TRUE))))) {
 
   fy <- dims(stock)$maxyear
   y0 <- dims(stock)$minyear
 
-  # CHECK year knots
+  # REPEAT control if single AAP.control
+  if(!is.list(control))
+    control <- setNames(rep(list(control), nyears + 1), nm=seq(fy, fy - nyears))
+
+  # REPEAT indices if not list
+  if(is(indices, "FLIndices"))
+    indices <- setNames(rep(list(indices), nyears + 1), nm=seq(fy, fy - nyears))
 
   # SELECT indices that fall within retro year range
-  iyrs <- unlist(lapply(indices, function(x) dims(x)$maxyear)) >= (fy - nyears)
+  iyrs <- unlist(lapply(indices[[1]], function(x) dims(x)$maxyear)) >= (fy - nyears)
 
-  if(!all(iyrs))
+  if(!all(iyrs)) {
     warning(paste("FLIndices outside of year range are excluded from xval:",
       paste(names(indices)[!iyrs], collapse=", ")))
+    indices <- lapply(indices, "[", iyrs)
+  }
 
   # FILL index wt using stock.wt
   indices <- lapply(indices, function(x) {
-    dmns <- dimnames(index(x))
-    if(all(is.na(catch.wt(x))))
-      catch.wt(x) <- stock.wt(stock)[dmns$age, dmns$year]
-    return(x)
-    }
-  )
+    lapply(x, function(y) {
+      dmns <- dimnames(index(y))
+      if(all(is.na(catch.wt(y))))
+        catch.wt(y) <- stock.wt(stock)[dmns$age, dmns$year]
+      return(y)
+      })
+    })
 
   # LOOP
-  retro <- foreach(y=seq(fy, fy - nyears)) %dopar% {
-
+  retro <- foreach(y=seq(fy, fy - nyears), .errorhandling = "stop") %dopar% {
+    
     # RUN
-    fit <- aap(window(stock, end=y), lapply(indices, window, end=y),
-      control=control, pin=pin)
+    fit <- aap(stock=window(stock, end=y), indices=window(indices[[ac(y)]], end=y),
+      control=control[[ac(y)]], pin=pin)
 
     # UPDATE
     stock.n(stock)[, ac(y0:y)] <- stock.n(fit) 
@@ -74,17 +86,13 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin="missing") {
     if(y < fy) {
 
      # SET future SELEX, WTs
-      fyrs <- ac(seq(y-nsq-1, y))
+      fyrs <- ac(seq(y - nsq + 1, y))
 
       harvest(stock)[, ac(y+1)] <- yearMeans(harvest(stock)[, fyrs])
       stock.wt(stock)[, ac(y+1)] <- yearMeans(stock.wt(stock)[, fyrs])
       catch.wt(stock)[, ac(y+1)] <- yearMeans(catch.wt(stock)[, fyrs])
       landings.wt(stock)[, ac(y+1)] <- yearMeans(landings.wt(stock)[, fyrs])
       discards.wt(stock)[, ac(y+1)] <- yearMeans(discards.wt(stock)[, fyrs])
-
-      # REC
-      srr <- predictModel(model=rec~a,
-        params=FLPar(a=exp(mean(log(rec(stock)), na.rm=TRUE))))
 
       # FWD
       pred <- fwd(stock, control=fwdControl(year=seq(y+1, fy),
@@ -96,8 +104,7 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin="missing") {
     # INDEX qs
     qs <- q.hat(fit)
     
-    # PREDICT FLIndices
-
+    # PREDICT FLIndices i = q * stock.n * exp(-z * t)
     ihat <- mapply(function(a, b) {
       
       # GET dims
@@ -114,13 +121,14 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin="missing") {
 
       return(b)
 
-      }, a=qs[iyrs], b=indices[iyrs], SIMPLIFY=FALSE)
+      }, a=qs[iyrs], b=indices[[ac(y)]][iyrs], SIMPLIFY=FALSE)
 
     name(pred) <- paste(name(pred), y, sep="_")
     desc(pred) <- paste(".", desc(pred), "xval -", y)
 
-    list(stock=pred, indices=ihat)
+    list(stock=pred, indices=ihat, year=y, fit=fit)
   }
+
 
   # OUTPUT: stocks (FLStocks)
   stocks <- lapply(retro, "[[", "stock")
@@ -132,8 +140,8 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin="missing") {
   names(stocks) <- seq(fy, fy - nyears)
 
   # indices, first element is data, in case catch.wt had to be added
-  indices <- c(list(indices), lapply(retro, function(x) FLIndices(x$indices)))
+  indices <- c(list(indices[[1]]), lapply(retro, function(x) FLIndices(x$indices)))
   names(indices) <- c("data", seq(fy, fy - nyears))
 
-  list(stocks=stocks, indices=indices)
+  list(stocks=stocks, indices=indices, fit=lapply(retro, "[[", "fit"))
 } # }}}

@@ -9,27 +9,43 @@
 
 library(AAP)
 
-sol4 <- readFLStock("sol4/index.txt", na.strings="-1")
+dat <- read.csv("sol4/sol4.csv")
 
-# COMPLETE slots
-discards(sol4) <- computeDiscards(sol4)
-catch(sol4) <- computeCatch(sol4, "all")
+sol4 <- as.FLStock(dat)
 
-# SET units & range
-units(sol4) <- standardUnits(sol4, biomass="tonnes",
-  numbers="thousands")
-range(sol4, c("minfbar", "maxfbar", "plusgroup")) <- c(2, 6, 15)
+range(sol4, c("minfbar", "maxfbar")) <- c(2, 6)
 
-# SET plusgroup
-sol4 <- setPlusGroup(sol4, 10)
 
-# --- INDEX
+# --- INDICES
 
-# INDEX frpm VPA file
-indices <- readFLIndices("sol4/fleet.txt", na.strings="-1")
+# BTS
 
-# SUBSET indices
-indices <- indices[c("BTS", "SNS")]
+dat <- read.csv("sol4/bts.csv")
+
+bts <- lapply(setNames(nm=unique(dat$slot)), function(x) {
+  as.FLQuant(dat[dat$slot == x, -1])
+})
+
+bts <- do.call("FLIndex", bts)
+
+name(bts) <- "BTS"
+desc(bts) <- "GAM-standardized Beam Trawl Survey Q3 (NL, BE, DE)"
+range(bts, c("startf", "endf")) <- c(0.66, 0.75)
+
+# SNS
+
+dat <- read.csv("sol4/sns.csv")
+
+sns <- lapply(setNames(nm=unique(dat$slot)), function(x) {
+  as.FLQuant(dat[dat$slot == x, -1])
+})
+
+sns <- do.call("FLIndex", sns)
+name(sns) <- "SNS"
+desc(sns) <- "Sole Net Survey"
+range(sns, c("startf", "endf")) <- c(0.66, 0.75)
+
+indices <- FLIndices(BTS=bts, SNS=sns)
 
 # --- SA
 

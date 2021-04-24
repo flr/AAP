@@ -21,7 +21,7 @@
 #' mcmcrun <- aap(sol4, sol4indices, AAP.control(control, mcmc=TRUE))
 
 aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
-  pin="missing", model="sole") {
+  pin=NULL, model="sole") {
 
   # CHECK inputs
   # surveys age ranges covered by stock
@@ -67,10 +67,10 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
  
   #USE TENSOR spline instead
   # now make design matrix for F over ages and time, and for U1
-  X  <- gam(dummy ~ te(age, year, k = c(F_age_knots,F_time_knots)),
+  X  <- gam(dummy ~ te(age, year, k = c(F_age_knots, F_time_knots)),
     data = expand.grid(dummy = 1, age = 1:qplat_Fmatrix,
     year = as.numeric(1:numYr)), fit = FALSE) $ X
-  
+
   # Annual W
   WSpline <- format(t(matrix(bs(1:numYr,df=W_time_knots,intercept=T),
     ncol=W_time_knots)), nsmall=9)
@@ -118,8 +118,10 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
     F_age_knots, F_time_knots,W_time_knots, numAges, pGrp, indMPs, selSpline,
     X, WSpline, tquants), file=file.path(wkdir, paste0(model, ".dat")))
 
-  if(!missing(pin))
+  # SAVE .pin file
+  if(!is.null(pin))
     capture.output(stdfile2pin(pin), file=file.path(wkdir, paste0(model, ".pin")))
+  # OR create from data
   else
     capture.output(stdfile2pin(pin(stock, indices, control)),
       file=file.path(wkdir,paste0(model, ".pin")))

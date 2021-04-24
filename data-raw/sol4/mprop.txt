@@ -1,6 +1,0 @@
-sol-nsea in ICES area 27.4: proportion of m before spawning
-1         8
-1957      2018
-1         15
-3
-0

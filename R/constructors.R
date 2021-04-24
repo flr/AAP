@@ -68,7 +68,6 @@ pin <- function(stock, indices, control) {
   ntempstw <- control@Wtime.knots
   ninitpop <- nyears + nages - 1
 
-
   # CREATE pin list by element
   pin <- list(
     # logsigmaL: 3
@@ -76,7 +75,7 @@ pin <- function(stock, indices, control) {
     # logsigmaD: 3
     list(name="logsigmaD", mean=rep(0.01, 3), stddev=rep(0.01, 3)),
     # logsigmaU: no_surveys
-    list(name="logsigmaU", mean=rep(0.01, nsurveys), stddev=rep(0.01, nsurveys)),
+    list(name="logsigmaU", mean=rep(0.01, nsurveys*3), stddev=rep(0.01, nsurveys*3)),
     # logsigmaLWTS: 3
     list(name="logsigmaLWTS", mean=rep(0.01, 3), stddev=rep(0.01, 3)),
     # logsigmaSWTS: 3
@@ -88,10 +87,10 @@ pin <- function(stock, indices, control) {
     # log_sel_coff1: F_age_knots*F_time_knots
     list(name="log_sel_coff1", mean=rep(0.5, nselcoff1), stddev=rep(0.01, nselcoff1)),
     # log_sel_coffU: no_surveys*S_age_knots
-    list(name="log_sel_coffU", mean=rep(0.5, nselcoff1), stddev=rep(0.01, nselcoff1)),
+    list(name="log_sel_coffU", mean=rep(0.5, nselcoffU), stddev=rep(0.01, nselcoffU)),
     # disc_curve: 2
     list(name="disc_curve", mean=rep(0.01, 2), stddev=rep(0.01, 2)),
-    # logK: 1 (-2,3)
+    # logK: 1 (-2, 3)
     list(name="logaK", mean=2, stddev=0.01),
     # log_temp_wts_Linf: W_time_knots
     list(name="log_temp_wts_Linf", mean=rep(0.5, ntempstw), stddev=rep(0.01, ntempstw)),
@@ -107,4 +106,3 @@ pin <- function(stock, indices, control) {
 
   return(pindf)
 } # }}}
-

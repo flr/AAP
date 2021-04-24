@@ -49,7 +49,7 @@ DATA_SECTION
   matrix stock_weights_NA(1,nyrs,1,nages);
   
 PARAMETER_SECTION
-  init_vector logsigmaL(1,3)
+  init_vector logsigmaL(1,nages)
   init_vector logsigmaD(1,3)
   init_matrix logsigmaU(1,no_surveys,1,3)
   init_vector logsigmaLWTS(1,3) 
@@ -199,7 +199,8 @@ FUNCTION dvariable dnorm(const dvariable& x, const dvariable& mu, const dvariabl
 FUNCTION get_sigmas
   for (int a=1; a<=nages; a++){
     // landings and discards sigma 
-    sigmaL(a) = mfexp(logsigmaL(1) + logsigmaL(2) * a + logsigmaL(3) * a * a );
+ //   sigmaL(a) = mfexp(logsigmaL(1) + logsigmaL(2) * a + logsigmaL(3) * a * a );
+    sigmaL(a) = mfexp(logsigmaL(a));
     sigmaD(a) = mfexp(logsigmaD(1) + logsigmaD(2) * a + logsigmaD(3) * a * a );
     // Survey sigma
     for (int s=1; s<=no_surveys; s++) 

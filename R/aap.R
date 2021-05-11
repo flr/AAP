@@ -21,7 +21,7 @@
 #' mcmcrun <- aap(sol4, sol4indices, AAP.control(control, mcmc=TRUE))
 
 aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
-  pin=NULL, model="sole") {
+  pin=NULL, model="sole", verbose=FALSE) {
 
   # CHECK inputs
   # surveys age ranges covered by stock
@@ -139,7 +139,8 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   if (!control@mcmc) {
     if (file.exists(paste0(model, ".std"))) file.remove(paste0(model, ".std"))
     echo <- system(paste0("cd ",
-      shQuote(wkdir), paste0(";", model, " -nox -ind ", model, ".dat ", args)))
+      shQuote(wkdir), paste0(";", model, " -nox -ind ", model, ".dat ", args),
+      ifelse(verbose, "", "> log.txt")))
    
     #First see if std file exists. If not: trouble
     if (file.exists(paste0(fname, ".std"))) {

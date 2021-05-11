@@ -1,5 +1,5 @@
-# xval.R - DESC
-# /xval.R
+# xval.R - Hindcasting cross-validation and restrospective in one go.
+# AAP/R/xval.R
 
 # Copyright Iago MOSQUEIRA (WMR), 2021
 # Author: Iago MOSQUEIRA (WMR) <iago.mosqueira@wur.nl>
@@ -37,10 +37,8 @@
 #' plot(window(sxval$stocks, start=2005),
 #'   metrics=list(SSB=ssb, F=fbar, Recruits=rec))
 
-aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL,
-  srr=predictModel(model=rec~a,
-    params=FLPar(a=exp(mean(log(window(rec(stock), end=-3)), na.rm=TRUE))))) {
-
+aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL) {
+  
   fy <- dims(stock)$maxyear
   y0 <- dims(stock)$minyear
 
@@ -64,6 +62,7 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL,
   # FILL index wt using stock.wt
   indices <- lapply(indices, function(x) {
     lapply(x, function(y) {
+      y <- window(y, end=fy)
       dmns <- dimnames(index(y))
       if(all(is.na(catch.wt(y))))
         catch.wt(y) <- stock.wt(stock)[dmns$age, dmns$year]
@@ -71,12 +70,16 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL,
       })
     })
 
+  orig <- stock
+
   # LOOP
   retro <- foreach(y=seq(fy, fy - nyears), .errorhandling = "stop") %dopar% {
     
+    cat("[", y, "]\n", sep="")
+    
     # RUN
-    fit <- aap(stock=window(stock, end=y), indices=window(indices[[ac(y)]], end=y),
-      control=control[[ac(y)]], pin=pin)
+    fit <- aap(stock=window(orig, end=y), indices=window(indices[[ac(y)]], end=y),
+      control=control[[ac(y)]], pin=pin, verbose=FALSE)
 
     # UPDATE
     stock.n(stock)[, ac(y0:y)] <- stock.n(fit) 
@@ -94,19 +97,22 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL,
       landings.wt(stock)[, ac(y+1)] <- yearMeans(landings.wt(stock)[, fyrs])
       discards.wt(stock)[, ac(y+1)] <- yearMeans(discards.wt(stock)[, fyrs])
 
+      # SRR
+      srr <- predictModel(model=rec~a,
+        params=FLPar(a=exp(mean(log(window(rec(stock), end=-3)), na.rm=TRUE))))
       # FWD
       pred <- fwd(stock, control=fwdControl(year=seq(y+1, fy),
         quant="catch", value=catch(stock)[, ac(seq(y+1, fy))]), sr=srr)
     } else {
       pred <- stock
     }
-
+    
     # INDEX qs
     qs <- q.hat(fit)
     
     # PREDICT FLIndices i = q * stock.n * exp(-z * t)
     ihat <- mapply(function(a, b) {
-      
+
       # GET dims
       dmns <- dimnames(b)
       dis <- dims(b)
@@ -121,27 +127,29 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL,
 
       return(b)
 
-      }, a=qs[iyrs], b=indices[[ac(y)]][iyrs], SIMPLIFY=FALSE)
+      }, a=qs[iyrs], b=window(indices[[ac(y)]][iyrs], end=fy), SIMPLIFY=FALSE)
 
     name(pred) <- paste(name(pred), y, sep="_")
     desc(pred) <- paste(".", desc(pred), "xval -", y)
 
     list(stock=pred, indices=ihat, year=y, fit=fit)
   }
-
-
+  
   # OUTPUT: stocks (FLStocks)
-  stocks <- lapply(retro, "[[", "stock")
+  stocks <- FLStocks(lapply(retro, "[[", "stock"))
   names(stocks) <- seq(fy, fy - nyears)
 
-  # CONVERT to retro
-  stocks <- FLStocks(lapply(names(stocks),
-    function(x) window(stocks[[x]], end=x)))
-  names(stocks) <- seq(fy, fy - nyears)
-
+  # fits
+  fit <- lapply(retro, "[[", "fit")
+  
   # indices, first element is data, in case catch.wt had to be added
   indices <- c(list(indices[[1]]), lapply(retro, function(x) FLIndices(x$indices)))
   names(indices) <- c("data", seq(fy, fy - nyears))
 
-  list(stocks=stocks, indices=indices, fit=lapply(retro, "[[", "fit"))
+  # CONVERT stocks to retro
+  retro <- FLStocks(lapply(names(stocks),
+    function(x) window(stocks[[x]], end=x)))
+  names(retro) <- seq(fy, fy - nyears)
+
+  list(stocks=stocks, indices=indices, retro=retro, fit=fit)
 } # }}}

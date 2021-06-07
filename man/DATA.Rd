@@ -4,7 +4,9 @@
 \name{DATA}
 \alias{DATA}
 \title{Data from ...}
-\format{An object of class CLASS with}
+\format{
+An object of class CLASS with
+}
 \description{
 Aliquam sagittis feugiat felis eget consequat. Praesent eleifend dolor massa,
 vitae faucibus justo lacinia a. Cras sed erat et magna pharetra bibendum quis in

@@ -28,4 +28,4 @@ LazyLoad: Yes
 LazyData: No
 Roxygen: list(markdown = TRUE)
 BugReports: https://github.com/flr/AAP/issues
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1

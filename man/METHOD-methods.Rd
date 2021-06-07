@@ -11,6 +11,7 @@ makeDAT(
   numYr,
   qplat_Fmatrix,
   qplat_surveys,
+  S_age_knots,
   F_age_knots,
   F_time_knots,
   W_time_knots,

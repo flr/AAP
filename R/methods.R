@@ -254,3 +254,26 @@ sigmas <- function(fit) {
   FLQuants(c(list(Landings=landings.var(fit), Discards=discards.var(fit)),
     index.var(fit)))
 }
+
+
+# aap.sa {{{
+aap.sa <- function(stk, idx, args, tracking, ...) {
+
+	args0 <- list(...)
+	
+  args0$stock <- stk
+	args0$indices <- idx
+	
+  if(is.null(args0$control)) stop("Missing control object")
+	
+	fit <- do.call('aap', args0)
+
+	stk <- stk + fit
+
+  track(tracking, "conv.est", ac(args$ay)) <- 1
+	
+  list(stk = stk, tracking = tracking)
+}
+
+# }}}
+

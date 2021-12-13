@@ -1,10 +1,8 @@
-# FLPKG
-- Version: 0.2.8
-- Date: 11-05-2021
-- Author: %USER%
-- Maintainer: %USER2% <me@my.com>
-- Repository: <https://github.com/flr/FLPKG/>
-- Bug reports: <https://github.com/flr/FLPKG/issues>
+# AAP <img src="man/figures/aap.png" align="right" width="120" />
+
+[![R-CMD-check](https://github.com/flr/aap/workflows/R-CMD-check/badge.svg)](https://github.com/flr/aap/actions)
+[![License](https://flr-project.org/img/eupl12.svg)](https://eupl.eu/1.2/en)
+
 
 ## Overview
 ONE LINE OVERVIEW, SAME AS IN DESCRIPTION
@@ -33,6 +31,7 @@ Copyright (c) %YEAR% Somebody. Released under the [%LICENCE%](%LICENCEURL%).
 ## Contact
 You are welcome to:
 
-- Submit suggestions and bug-reports at: <https://github.com/flr/FLPKG/issues>
-- Send a pull request on: <https://github.com/flr/FLPKG/>
-- Compose a friendly e-mail to: <me@my.com>
+- Submit suggestions and bug-reports at: <https://github.com/flr/AAP/issues>
+- Send a pull request on: <https://github.com/flr/AAP/>
+- Author: Iago Mosqueira (WMR), based on a model by Jan Jaap Poos & Geert Aarts.
+- Maintainer: Iago Mosqueira <iago.mosqueira@wur.nl>

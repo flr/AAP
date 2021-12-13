@@ -223,6 +223,8 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   estDAA <- read.table(paste0(fname,".rep"),
     skip=which(repFull=="Estimated d@a"), nrow=nyears)
   
+  # res@loglkhd <- as.numeric(repFull[2])
+  
   for (ss in 1:length(indMPs)) {
     estSurv <- read.table(paste0(fname,".rep"),
       skip=which(repFull=="Estimated surveys")+((ss-1)*nyears), nrow=nyears)

@@ -95,6 +95,7 @@ setClass("AAP",
            stock.wt     ="FLQuant",
            q.hat        ="FLQuants",
            stdfile      ="data.frame",
+#           loglkhd      ="numeric",
            control      ="AAP.control"),
          prototype=prototype(
            landings.wt  =FLQuant(),
@@ -106,5 +107,6 @@ setClass("AAP",
            stock.wt     =FLQuant(),  
            q.hat        =FLQuants(),
            stdfile      =data.frame(),
+#           loglkhd      =rep(as.numeric(NA), 6),
            control      =new("AAP.control"))
 )

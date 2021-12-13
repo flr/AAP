@@ -255,6 +255,7 @@ sigmas <- function(fit) {
     index.var(fit)))
 }
 
+# }}}
 
 # aap.sa {{{
 aap.sa <- function(stk, idx, args, tracking, ...) {

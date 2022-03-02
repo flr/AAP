@@ -278,3 +278,19 @@ aap.sa <- function(stk, idx, args, tracking, ...) {
 
 # }}}
 
+# indicesAAP {{{
+indicesAAP <- function(object) {
+
+  # Map over indices
+  FLIndices(Map(function(i, j, k, l) {
+    # dimnames to subset with
+    dms <- dimnames(i)[1:2]
+    # FLIndex: index, indes.var
+    return(FLIndex(index=i, index.var=expand(j[dms[[1]],], year=dms[[2]]),
+      # index.q
+      index.q=expand(k[dms[[1]],], year=dms[[2]]),
+      # sel.pattern
+      sel.pattern=expand(((1/l) / max(1/l, na.rm=TRUE))[dms[[1]],], year=dms[[2]])))
+  }, i=index(fit), j=index.var(fit), k=q.hat(fit), l=sigmas(fit)[-seq(1,2)]))
+
+} # }}}

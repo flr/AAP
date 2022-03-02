@@ -16,6 +16,7 @@ exportClasses(
   "AAP")
 
 export("aap",
+  "aap.sa",
   "aaphcxval",
   "AAP.control",
   "sigmas")

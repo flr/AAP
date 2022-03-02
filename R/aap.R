@@ -286,7 +286,7 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
  }
    
   res@q.hat@names <- res@index.hat@names <- res@index.var@names <-
-    res@index.res@names  <- res@index@names <- indices@names
+    res@index.res@names  <- res@index@names <- indices@names <- names(indices)
 
   res@index <- FLQuants(indexVals)
   res@control <- control

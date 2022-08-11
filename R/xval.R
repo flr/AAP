@@ -73,7 +73,7 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL) {
   orig <- stock
 
   # LOOP
-  retro <- foreach(y=seq(fy, fy - nyears), .errorhandling = "stop") %dopar% {
+  retro <- foreach(y=seq(fy, fy - nyears), .errorhandling = "remove") %dopar% {
     
     cat("[", y, "]\n", sep="")
     

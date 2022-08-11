@@ -6,7 +6,7 @@ all: ../bin/linux/sole ../bin/linux/plaice
 
 sole: sole.tpl
 	admb sole.tpl
-	g++ -std=c++14 -static -O3 -osole sole.obj `locate libadmb-contrib-x86_64-linux-g++8.a`
+	g++ -std=c++14 -static -O3 -osole sole.obj `locate libadmb-contrib-x86_64-linux-g++9.a`
 
 ../bin/linux/plaice: plaice.tpl
 	admb plaice.tpl

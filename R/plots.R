@@ -79,11 +79,11 @@ setMethod("plot", signature(x="AAP", y="FLStocks"),
     y <- lapply(list(Rec=rec, SSB=ssb, F=fbar), function(i) 
       FLQuants(lapply(y, metrics, i)))
 
-    if(missing(mrho))
+    if(missing(mrho)) {
       Reduce("/", mapply(function(x, y, z) plot(x, y) + ylab(z),
         x, y, list("Recruits (thousands)", "SSB (tonnes)", " F (2-6)"),
         SIMPLIFY=FALSE))
-    else {
+    } else {
       mrho <- setNames(lapply(names(mrho),
         function(x) paste0("rho(", x, ") = ", format(mrho[[x]], digits=3))),
           names(mrho))[names(x)]

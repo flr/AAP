@@ -58,9 +58,6 @@ Methods exist for various calculations based on values stored in the class:
 }
 }
 
-\examples{
-
-}
 \seealso{
 \link{FLComp}
 }

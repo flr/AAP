@@ -3,19 +3,16 @@
 [![R-CMD-check](https://github.com/flr/aap/workflows/R-CMD-check/badge.svg)](https://github.com/flr/aap/actions)
 [![License](https://flr-project.org/img/eupl12.svg)](https://eupl.eu/1.2/en)
 
-
 ## Overview
-ONE LINE OVERVIEW, SAME AS IN DESCRIPTION
+
+Aarts and Poos Stock Assessment Model that Estimates Bycatch
 
 To install this package, start R and enter:
 
-	install.packages("FLPKG", repos="http:///flr-project.org/R")
-
-or download from the [FLR releases page](https://github.com/flr/R/releases)
+	install.packages("AAP", repos="http:///flr-project.org/R")
 
 ## Documentation
-- [Help pages](http://flr-project.org/FLPKG)
-- Vignette
+- [Help pages](http://flr-project.org/AAP)
 
 ## Build Status
 [![Travis Build Status](https://travis-ci.org/flr/FLPKG.svg?branch=master)](https://travis-ci.org/flr/FLPKG)
@@ -26,7 +23,7 @@ or download from the [FLR releases page](https://github.com/flr/R/releases)
 - [All releases](https://github.com/flr/R/releases/)
 
 ## License
-Copyright (c) %YEAR% Somebody. Released under the [%LICENCE%](%LICENCEURL%).
+Copyright (c) 2020-2022 WUR. Released under the EUPL 1.2.
 
 ## Contact
 You are welcome to:

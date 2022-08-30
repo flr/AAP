@@ -1,6 +1,6 @@
 Package: AAP
 Title: Aarts and Poos Stock Assessment Model that Estimates Bycatch
-Version: 0.2.9
+Version: 0.3.0
 Authors@R: c(person(given = 'Iago', family = 'Mosqueira',
   role = c('aut', 'cre'),
   email = 'iago.mosqueira@wur.nl'))
@@ -29,4 +29,4 @@ LazyData: No
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 BugReports: https://github.com/flr/AAP/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1

@@ -34,7 +34,7 @@ as set ny \code{nyears}.
 }
 \examples{
 data(sol4)
-cd.command()
+AAP:::cd.command()
 sxval <- aaphcxval(sol4 + fit, indices, control=control(fit),
   pin=stdfile(fit))
 plotXval(sxval$indices)

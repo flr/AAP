@@ -1,4 +1,4 @@
-citHeader("To cite FLPKG in a publication, please use:")
+citHeader("To cite AAP in a publication, please use:")
 
 citEntry(
   entry="Article",
@@ -11,5 +11,5 @@ citEntry(
   volume="66",
   pages="763-771",
   doi = "10.1093/icesjms/fsp033",
-  textVersion="G. Aarts, J. J. Poos, Comprehensive discard reconstruction and abundance estimation using flexible selectivity functions, ICES Journal of Marine Science, Volume 66, Issue 4, May 2009, Pages 763–771, https://doi.org/10.1093/icesjms/fsp033"
+  textVersion="G. Aarts, J. J. Poos, Comprehensive discard reconstruction and abundance estimation using flexible selectivity functions. ICES Journal of Marine Science 66 (4): 763-771, https://doi.org/10.1093/icesjms/fsp033"
 )

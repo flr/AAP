@@ -26,7 +26,25 @@
 #' overview of the package.
 NULL
 
-
+os.type <- function (type = c("linux", "windows", "osx", "else")) {
+  type = match.arg(type)
+  if (type == "windows") {
+    return(.Platform$OS.type == "windows")
+  }
+  else if (type == "osx") {
+    return(Sys.info()["sysname"] == "Darwin")
+  }
+  else if (type == "linux") {
+#    return((.Platform$OS.type == "unix") && !os.type("mac"))
+    return(.Platform$OS.type == "unix" && Sys.info()["sysname"] != "Darwin")
+  }
+  else if (type == "else") {
+    return(TRUE)
+  }
+  else {
+    stop("This shouldn't happen.")
+  }
+}
 
 aap.dir <- function () {
   if (os.type("linux")) {
@@ -49,23 +67,18 @@ aap.dir <- function () {
   }
 }
 
-os.type <- function (type = c("linux", "windows", "osx", "else")) {
-  type = match.arg(type)
-  if (type == "windows") {
-    return(.Platform$OS.type == "windows")
+cd.command <- function () {
+  if (os.type("linux")) {
+    return(c("cd", ";"))
   }
-  else if (type == "osx") {
-    return(Sys.info()["sysname"] == "Darwin")
+  else if (os.type("osx")) {
+    return(c("cd", ";"))
   }
-  else if (type == "linux") {
-#    return((.Platform$OS.type == "unix") && !os.type("mac"))
-    return(.Platform$OS.type == "unix" && Sys.info()["sysname"] != "Darwin")
-  }
-  else if (type == "else") {
-    return(TRUE)
+  else if (os.type("windows")) {
+    return(c("cd /D", "&"))
   }
   else {
-    stop("This shouldn't happen.")
+    stop("Unknown OS")
   }
 }
 

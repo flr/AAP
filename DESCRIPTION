@@ -6,7 +6,6 @@ Authors@R: c(person(given = 'Iago', family = 'Mosqueira',
   email = 'iago.mosqueira@wur.nl'))
 Description: FLR version of Aarts and Poos stock assessment model.
 Depends:
-  methods,
   FLCore,
   ggplotFL,
   R(>= 3.6.0)

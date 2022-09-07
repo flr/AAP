@@ -31,7 +31,6 @@
 #' 'indices', a list of *FLIndices* objects. See details for the structure of this list.
 #' @examples
 #' data(sol4)
-#' AAP:::cd.command()
 #' sxval <- aaphcxval(sol4 + fit, indices, control=control(fit),
 #'   pin=stdfile(fit))
 #' plotXval(sxval$indices)

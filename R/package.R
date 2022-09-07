@@ -67,21 +67,6 @@ aap.dir <- function () {
   }
 }
 
-cd.command <- function () {
-  if (os.type("linux")) {
-    return(c("cd", ";"))
-  }
-  else if (os.type("osx")) {
-    return(c("cd", ";"))
-  }
-  else if (os.type("windows")) {
-    return(c("cd /D", "&"))
-  }
-  else {
-    stop("Unknown OS")
-  }
-}
-
 .onAttach <- function(libname, pkgname) {
 
   # FIND PATH separator

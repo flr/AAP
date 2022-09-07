@@ -135,15 +135,28 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   range(res)[c("min", "max", "minyear", "maxyear", "minfbar", "maxfbar")] <-
     range(stock)[c("min", "max", "minyear", "maxyear", "minfbar", "maxfbar")]
 
+  scall <- 
+  # CALL: func(cd, wkdir, )
   
   
-  # RUN
+  # RUN no McMC
   if (!control@mcmc) {
-    if (file.exists(paste0(model, ".std"))) file.remove(paste0(model, ".std"))
 
-    echo <- system(paste(cd.command()[1], shQuote(wkdir),
-      paste0(cd.command()[2], model, " -nox -ind ", model, ".dat ", args), 
+  if (file.exists(paste0(model, ".std")))
+    file.remove(paste0(model, ".std"))
+
+  if (os.type("linux")) {
+    echo <- system(paste("cd ", shQuote(wkdir),
+      paste0(";", model, " -nox -ind ", model, ".dat ", args), 
       ifelse(verbose, "", "> log.txt")))
+  }
+  else if (os.type("windows")) {
+    echo <- shell(paste("cd /D ", shQuote(wkdir),
+      paste0("&", model, " -nox -ind ", model, ".dat ", args), 
+      ifelse(verbose, "", "> log.txt")))
+  } else {
+    stop("Unknown OS")
+  }
 
     #First see if std file exists. If not: trouble
     if (file.exists(paste0(fname, ".std"))) {
@@ -181,15 +194,29 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
     # MLE run if no std
     if(!file.exists(paste0(fname, ".std")))
       mle <- aap(stock=stock, indices=indices,
-        control=AAP.control(control, mcmc=FALSE))
+        control=AAP.control(control, mcmc=FALSE), wkdir=wkdir)
 
-    echo <- system(paste(cd.command()[1], shQuote(wkdir),
-      paste0(cd.command()[2], model, " -mcmc 1e5 -mcsave 1e2 ", args), 
-      ifelse(verbose, "", "> log.txt")))
-    
-    echo <- system(paste(cd.command()[1], shQuote(wkdir),
-      paste0(cd.command()[2], model, " -mceval ", args), 
-      ifelse(verbose, "", "> log.txt")))
+    if (os.type("linux")) {
+
+      echo <- system(paste("cd ", shQuote(wkdir),
+        paste0(";", model, " -mcmc 1e5 -mcsave 1e2", args), 
+        ifelse(verbose, "", "> log.txt")))
+
+      echo <- system(paste("cd ", shQuote(wkdir),
+        paste0(";", model, " -mceval", args), 
+        ifelse(verbose, "", "> log.txt")))
+  } else if (os.type("windows")) {
+
+      echo <- shell(paste("cd /D ", shQuote(wkdir),
+        paste0("&", model, " -mcmc 1e5 -mcsave 1e2", args), 
+        ifelse(verbose, "", "> log.txt")))
+
+      echo <- shell(paste("cd /D ", shQuote(wkdir),
+        paste0("&", model, " -mceval", args), 
+        ifelse(verbose, "", "> log.txt")))
+  } else {
+    stop("Unknown OS")
+  }
 
     repFull <- readLines(paste0(fname,".rep"), n=-1)
     stdfile <- readLines(paste0(fname,".std"))

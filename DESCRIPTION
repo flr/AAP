@@ -1,6 +1,6 @@
 Package: AAP
 Title: Aarts and Poos Stock Assessment Model that Estimates Bycatch
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(person(given = 'Iago', family = 'Mosqueira',
   role = c('aut', 'cre'),
   email = 'iago.mosqueira@wur.nl'))

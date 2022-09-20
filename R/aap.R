@@ -152,7 +152,7 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   }
   else if (os.type("windows")) {
     echo <- shell(paste("cd /D ", shQuote(wkdir),
-      paste0("&", model, " -nox -ind ", model, ".dat ", args), 
+      paste0("&", model, ".exe -nox -ind ", model, ".dat ", args), 
       ifelse(verbose, "", "> log.txt")))
   } else {
     stop("Unknown OS")
@@ -208,11 +208,11 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
   } else if (os.type("windows")) {
 
       echo <- shell(paste("cd /D ", shQuote(wkdir),
-        paste0("&", model, " -mcmc 1e5 -mcsave 1e2", args), 
+        paste0("&", model, ".exe -mcmc 1e5 -mcsave 1e2", args), 
         ifelse(verbose, "", "> log.txt")))
 
       echo <- shell(paste("cd /D ", shQuote(wkdir),
-        paste0("&", model, " -mceval", args), 
+        paste0("&", model, ".exe -mceval", args), 
         ifelse(verbose, "", "> log.txt")))
   } else {
     stop("Unknown OS")

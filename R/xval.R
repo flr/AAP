@@ -37,7 +37,7 @@
 #' plot(window(sxval$stocks, start=2005),
 #'   metrics=list(SSB=ssb, F=fbar, Recruits=rec))
 
-aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL) {
+aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL, ...) {
   
   fy <- dims(stock)$maxyear
   y0 <- dims(stock)$minyear
@@ -79,7 +79,7 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL) {
     
     # RUN
     fit <- aap(stock=window(orig, end=y), indices=window(indices[[ac(y)]], end=y),
-      control=control[[ac(y)]], pin=pin, verbose=FALSE)
+      control=control[[ac(y)]], pin=pin, verbose=FALSE, ...)
 
     # UPDATE
     stock.n(stock)[, ac(y0:y)] <- stock.n(fit) 

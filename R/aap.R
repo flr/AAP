@@ -205,7 +205,7 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
       echo <- system(paste("cd ", shQuote(wkdir),
         paste0(";", model, " -mceval", args), 
         ifelse(verbose, "", "> log.txt")))
-  } else if (os.type("windows")) {
+    } else if (os.type("windows")) {
 
       echo <- shell(paste("cd /D ", shQuote(wkdir),
         paste0("&", model, ".exe -mcmc 1e5 -mcsave 1e2", args), 
@@ -214,7 +214,7 @@ aap <- function(stock, indices, control, args=" ", wkdir=tempfile(),
       echo <- shell(paste("cd /D ", shQuote(wkdir),
         paste0("&", model, ".exe -mceval", args), 
         ifelse(verbose, "", "> log.txt")))
-  } else {
+    } else {
     stop("Unknown OS")
   }
 

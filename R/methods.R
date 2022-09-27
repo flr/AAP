@@ -248,6 +248,9 @@ metricsAAP <- function(object) {
   res[res$qname == "Rec", c("mean", "var", "lowq", "uppq")] <- exp(
     res[res$qname == "Rec", c("mean", "var", "lowq", "uppq")])
 
+  # FIX issue with sd precision
+  res[res$qname == "Rec", "mean"] <- c(stock.n(object)[1,])
+
   colnames(res)[3] <- "data"
 
   return(res)

@@ -161,6 +161,7 @@ PROCEDURE_SECTION
   }
  
 REPORT_SECTION
+  report.precision(10);
   report << "Likelihoods f, f_la, f_da, f_s1, f_s2, f_s3, f_lw, f_sw" << endl;
   report << f  <<endl << f_la << endl <<  f_da << endl << f_s  << endl << f_lw  << endl << f_sw << endl;
   report << "log_self1"         << endl << log_self1 << endl;

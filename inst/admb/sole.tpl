@@ -363,6 +363,7 @@ FUNCTION write_mcmc
 
 RUNTIME_SECTION
   maximum_function_evaluations 2000, 2000, 2000
+  convergence_criteria 1.0e-8
 
 GLOBALS_SECTION
   #include "admodel.h" 

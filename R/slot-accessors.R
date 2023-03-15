@@ -27,8 +27,6 @@ setMethod("stock.wt", signature(object="AAP"),
   })
 
 # control
-setGeneric("control", function(object, ...)
-    standardGeneric("control"))
 setMethod("control", signature(object="AAP"),
   function(object) {
     return(slot(object, "control"))

@@ -78,12 +78,12 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL, ...) {
     cat("[", y, "]\n", sep="")
     
     # RUN
-    fit <- aap(stock=window(orig, end=y), indices=window(indices[[ac(y)]], end=y),
+    fit <- aap(stock=window(orig, end=y),
+      indices=window(indices[[ac(y)]], end=y),
       control=control[[ac(y)]], pin=pin, verbose=FALSE, ...)
 
     # UPDATE
-    stock.n(stock)[, ac(y0:y)] <- stock.n(fit) 
-    harvest(stock)[, ac(y0:y)] <- harvest(fit)
+    stock[, ac(y0:y)] <- fit + window(orig, end=y)
 
     # PREDICT stock, unless y == fy
     if(y < fy) {
@@ -119,7 +119,8 @@ aaphcxval <- function(stock, indices, control, nyears=5, nsq=3, pin=NULL, ...) {
       timf <- mean(range(b)[c("startf", "endf")])
 
       # COMPUTE predicted index
-      index(b) <- a[dmns$age, ] %*% stock.n(pred)[dmns$age, ac(seq(dis$minyear, fy))] *
+      index(b) <- a[dmns$age, ] %*%
+        stock.n(pred)[dmns$age, ac(seq(dis$minyear, fy))] *
         exp(-z(pred)[dmns$age, ac(seq(dis$minyear, fy))] * timf)
 
       # STORE catchabilities

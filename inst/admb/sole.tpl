@@ -308,7 +308,7 @@ FUNCTION evaluate_the_objective_function
   }
   // Add all components
   
-  f = f_la + f_da + sum(f_s) + f_lw  + f_sw;
+  f = f_la + f_da + sum(f_s) + f_lw + f_sw;
 
 
 FUNCTION get_fmax

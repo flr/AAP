@@ -79,17 +79,23 @@ setMethod("plot", signature(x="AAP", y="FLStocks"),
     y <- lapply(list(Rec=rec, SSB=ssb, F=fbar), function(i) 
       FLQuants(lapply(y, metrics, i)))
 
+    # NO Mohn's rho
     if(missing(mrho)) {
-      Reduce("/", mapply(function(x, y, z) plot(x, y) + ylab(z),
+
+      Reduce("/", mapply(function(x, y, z)
+        plot(x, y,mean=FALSE, median=FALSE) + ylab(z),
         x, y, list("Recruits (thousands)", "SSB (tonnes)", " F (2-6)"),
         SIMPLIFY=FALSE))
+
+    # LABEL using Mohn's rho
     } else {
+
       mrho <- setNames(lapply(names(mrho),
         function(x) paste0("rho(", x, ") = ", format(mrho[[x]], digits=3))),
           names(mrho))[names(x)]
 
       Reduce("/", mapply(function(x, y, z, a)
-        plot(x, y) + ylab(z) + ggtitle(a),
+        plot(x, y, mean=FALSE, median=FALSE) + ylab(z) + ggtitle(a),
         x, y,list("Recruits (thousands)", "SSB (tonnes)", "F (2-6)"),
         mrho, SIMPLIFY=FALSE))
     }

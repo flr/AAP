@@ -94,25 +94,29 @@ makeDAT <- function(stock, numYr, qplat_Fmatrix, qplat_surveys, S_age_knots,
 
 # `+` {{{
 
+# AAP + FLStock: UPDATE all
+
 setMethod("+", signature(e1="AAP", e2="FLStock"),
     function(e1, e2) {
 
-      # UPDATE harvest & stock.n
+      # UPDATE harvest, stock.n & stock.wt
       harvest(e2) <- harvest(e1)
       stock.n(e2) <- stock.n(e1)
+      stock.wt(e2) <- stock.wt(e1)
 
       stock(e2) <- computeStock(e2)
 
       # UPDATE catch, landings and discards
-      catch.n(e2) <- catch.n(e1)
-      catch(e2) <- computeCatch(e2)
-
       landings.n(e2) <- landings.n(e1)
+      landings.wt(e2) <- landings.wt(e1)
       landings(e2) <- computeLandings(e2)
 
       discards.n(e2) <- discards.n(e1)
-      discards.wt(e2) <- discards.wt(e1)
       discards(e2) <- computeDiscards(e2)
+
+      catch.n(e2) <- catch.n(e1)
+      catch(e2) <- computeCatch(e2, 'all')
+
 
       return(e2)
     }
